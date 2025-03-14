@@ -1,0 +1,76 @@
+name: 機能リクエスト
+description: このプロジェクトへのアイデアを提案する
+title: "[機能]: "
+labels: ["enhancement"]
+assignees:
+  - octocat
+body:
+  - type: markdown
+    attributes:
+      value: |
+        機能提案をありがとうございます。プロジェクト改善のためにご意見を検討させていただきます。
+  
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要
+      description: 機能リクエストの簡潔な概要を記述してください
+      placeholder: 一行程度で機能リクエストを要約してください
+    validations:
+      required: true
+  
+  - type: textarea
+    id: content
+    attributes:
+      label: 内容
+      description: 機能の詳細内容を記述してください
+      placeholder: 提案する機能の詳細を記述してください
+    validations:
+      required: true
+  
+  - type: textarea
+    id: problem
+    attributes:
+      label: 関連する問題
+      description: このリクエストが関連する問題やフラストレーションを明確に説明してください。
+      placeholder: 現在、○○するのが難しい/できないため、××する必要があります。
+    validations:
+      required: true
+  
+  - type: textarea
+    id: solution
+    attributes:
+      label: 提案する解決策
+      description: 実現したい機能やソリューションを詳細に説明してください。
+      placeholder: ○○機能を追加することで、××できるようにしたい。
+    validations:
+      required: true
+  
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 代替案
+      description: 検討した他の代替案や機能があれば説明してください。
+      placeholder: △△という方法も考えましたが、○○の理由でこちらの提案が優れていると思います。
+    validations:
+      required: false
+  
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先度
+      description: この機能の優先度はどの程度ですか？
+      options:
+        - 低（あると便利）
+        - 中（重要だが緊急ではない）
+        - 高（プロジェクトに不可欠）
+    validations:
+      required: true
+  
+  - type: textarea
+    id: additional
+    attributes:
+      label: 追加情報
+      description: 機能リクエストの理解を助ける追加情報やスクリーンショットがあれば、ここに追加してください。
+    validations:
+      required: false
