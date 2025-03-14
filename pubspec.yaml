@@ -5,18 +5,19 @@ version: 0.1.0
 
 environment:
   sdk: ^3.7.0
+  flutter: ">=3.16.0"  # Flutterのバージョン指定を追加
 
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^3.12.1
-  firebase_auth: ^5.5.1
-  cloud_firestore: ^5.6.5
+  firebase_core: ^2.24.2  # 現在の安定バージョン
+  firebase_auth: ^4.15.3  # 現在の安定バージョン
+  cloud_firestore: ^4.13.6  # 現在の安定バージョン
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^3.0.1  # 現在の安定バージョン
 
 flutter:
   uses-material-design: true
