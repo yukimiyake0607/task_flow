@@ -5,7 +5,7 @@ version: 0.1.0
 
 environment:
   sdk: ^3.7.0
-  flutter: ">=3.16.0"  # Flutterのバージョン指定を追加
+  flutter: ">=3.29.2"  # Flutterのバージョン指定を追加
 
 dependencies:
   flutter:
