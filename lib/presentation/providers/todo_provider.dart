@@ -62,9 +62,9 @@ class TodoActions {
 
       _ref.read(todoActionStateProvider.notifier).state =
           const AsyncValue.data(null);
-    } on Exception catch (e, _) {
+    } on Exception catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       rethrow;
     }
   }
@@ -79,9 +79,9 @@ class TodoActions {
       await repository.deleteTodo(id);
       _ref.read(todoActionStateProvider.notifier).state =
           const AsyncValue.data(null);
-    } on Exception catch (e, _) {
+    } on Exception catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       rethrow;
     }
   }
@@ -114,9 +114,9 @@ class TodoActions {
 
       _ref.read(todoActionStateProvider.notifier).state =
           const AsyncValue.data(null);
-    } on Exception catch (e, _) {
+    } on Exception catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       rethrow;
     }
   }
@@ -131,9 +131,9 @@ class TodoActions {
 
       _ref.read(todoActionStateProvider.notifier).state =
           const AsyncValue.data(null);
-    } on Exception catch (e, _) {
+    } on Exception catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       rethrow;
     }
   }

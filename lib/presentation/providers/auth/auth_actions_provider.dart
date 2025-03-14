@@ -33,13 +33,13 @@ class AuthActions {
       _ref.read(todoActionStateProvider.notifier).state =
           const AsyncValue.data(null);
       onSuccess;
-    } on FirebaseAuthException catch (e, _) {
+    } on FirebaseAuthException catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       onError(getErrorMessage(e));
-    } on Exception catch (e, _) {
+    } on Exception catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       onError('エラーが発生しました');
     }
   }
@@ -60,13 +60,13 @@ class AuthActions {
       _ref.read(todoActionStateProvider.notifier).state =
           const AsyncValue.data(null);
       onSuccess;
-    } on FirebaseAuthException catch (e, _) {
+    } on FirebaseAuthException catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       onError(getErrorMessage(e));
-    } on Exception catch (e, _) {
+    } on Exception catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       onError('エラーが発生しました');
     }
   }
@@ -79,9 +79,9 @@ class AuthActions {
     try {
       final authRepository = _ref.read(authRepositoryProvider);
       await authRepository.signOut();
-    } on Exception catch (e, _) {
+    } on Exception catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
     }
   }
 
@@ -100,13 +100,13 @@ class AuthActions {
       _ref.read(todoActionStateProvider.notifier).state =
           const AsyncValue.data(null);
       onSuccess;
-    } on FirebaseAuthException catch (e, _) {
+    } on FirebaseAuthException catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       onError(getErrorMessage(e));
-    } on Exception catch (e, _) {
+    } on Exception catch (e, stackTrace) {
       _ref.read(todoActionStateProvider.notifier).state =
-          AsyncValue.error(e, _);
+          AsyncValue.error(e, stackTrace);
       onError('エラーが発生しました');
     }
   }

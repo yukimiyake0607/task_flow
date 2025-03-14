@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
-import 'package:todo_app/presentation/pages/auth_page.dart';
 import 'package:todo_app/presentation/pages/home_page.dart';
 
 class MainApp extends StatelessWidget {
