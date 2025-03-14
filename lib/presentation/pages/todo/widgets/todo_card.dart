@@ -34,13 +34,13 @@ class _TodoCardState extends ConsumerState<TodoCard> {
       decoration: BoxDecoration(
         color: _isChecked == false
             ? Colors.white
-            : completedCardColor.withOpacity(0.05),
+            : completedCardColor.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: _isChecked == false
-                ? todoMainColor.withOpacity(0.1)
-                : completedCardColor.withOpacity(0.1),
+                ? todoMainColor.withValues(alpha: 0.1)
+                : completedCardColor.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -60,7 +60,7 @@ class _TodoCardState extends ConsumerState<TodoCard> {
               width: 5,
               color: _isChecked == false
                   ? todoMainColor
-                  : completedCardColor.withOpacity(0.05),
+                  : completedCardColor.withValues(alpha: 0.05),
             ),
           ),
           Checkbox(
@@ -78,11 +78,11 @@ class _TodoCardState extends ConsumerState<TodoCard> {
 
               // 反対のリストに移動する処理
               if (_isChecked) {
-                final todoToMove = widget.todoModel; // 現在のTODOを保存
+                
               }
 
               if (!_isChecked) {
-                final todoToMove = widget.todoModel;
+                
               }
             },
           ),
