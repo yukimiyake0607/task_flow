@@ -34,13 +34,13 @@ class _TodoCardState extends ConsumerState<TodoCard> {
       decoration: BoxDecoration(
         color: _isChecked == false
             ? Colors.white
-            : completedCardColor.withValues(alpha: 0.05),
+            : completedCardColor.withAlpha(13),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: _isChecked == false
-                ? todoMainColor.withValues(alpha: 0.1)
-                : completedCardColor.withValues(alpha: 0.1),
+                ? todoMainColor.withAlpha(26)
+                : completedCardColor.withAlpha(26),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -60,7 +60,7 @@ class _TodoCardState extends ConsumerState<TodoCard> {
               width: 5,
               color: _isChecked == false
                   ? todoMainColor
-                  : completedCardColor.withValues(alpha: 0.05),
+                  : completedCardColor.withAlpha(13),
             ),
           ),
           Checkbox(
