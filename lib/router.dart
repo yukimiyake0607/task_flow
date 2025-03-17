@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_app/presentation/pages/auth_page.dart';
-import 'package:todo_app/presentation/pages/login_page.dart';
-import 'package:todo_app/presentation/pages/register_page.dart';
+import 'package:todo_app/presentation/pages/auth/auth_page.dart';
+import 'package:todo_app/presentation/pages/auth/login_page.dart';
+import 'package:todo_app/presentation/pages/auth/register_page.dart';
 
 final goRouter = GoRouter(
   // アプリが起動した時
