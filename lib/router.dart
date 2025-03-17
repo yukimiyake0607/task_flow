@@ -32,7 +32,7 @@ final goRouter = GoRouter(
       },
     ),
   ],
-  // 繊維ページがないなどのエラーが発生した場合に使用
+  // 遷移ページがないなどのエラーが発生した場合に使用
   errorBuilder: (context, state) {
     return Scaffold(
       body: Center(
