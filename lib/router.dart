@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_app/presentation/pages/auth/auth_page.dart';
 import 'package:todo_app/presentation/pages/auth/login_page.dart';
 import 'package:todo_app/presentation/pages/auth/register_page.dart';
+import 'package:todo_app/presentation/pages/user_session/user_session_page.dart';
 
 final goRouter = GoRouter(
   // アプリが起動した時
@@ -11,10 +11,10 @@ final goRouter = GoRouter(
   // パスと画面の組み合わせ
   routes: [
     GoRoute(
+      name: 'user_session',
       path: '/',
-      name: 'auth',
       builder: (context, state) {
-        return const AuthPage();
+        return const UserSessionPage();
       },
     ),
     GoRoute(
