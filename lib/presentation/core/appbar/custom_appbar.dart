@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar(
-      {super.key, required this.title, this.subTitle, this.actions});
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    required this.isPositionCenter,
+    this.subTitle,
+    this.actions,
+  });
 
   final String title;
+  final bool isPositionCenter;
   final String? subTitle;
   final List<Widget>? actions;
 
@@ -38,9 +44,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: isPositionCenter == true
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: isPositionCenter == true
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start,
                 children: [
                   Text(
                     title,
