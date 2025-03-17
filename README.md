@@ -1,4 +1,4 @@
-# todo_app
+# todo_app（現在開発途中）
 
 ## 目的
 
