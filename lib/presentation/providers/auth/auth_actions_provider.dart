@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/infrastructure/auth/auth_repository_impl.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 import 'package:todo_app/presentation/core/messages/auth_error_message.dart';
-import 'package:todo_app/presentation/providers/todo_provider.dart';
+import 'package:todo_app/presentation/providers/todo/todo_provider.dart';
 
 // AuthActionsを提供するプロバイダー
 final authActionsProvider = Provider<AuthActions>((ref) {
