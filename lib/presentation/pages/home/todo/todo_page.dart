@@ -16,7 +16,6 @@ class _TodoPageState extends ConsumerState<TodoPage> {
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'マイタスク',
-        isPositionCenter: false,
         subTitle: 'タスクが3件残っています',
       ),
       floatingActionButton: FloatingActionButton(

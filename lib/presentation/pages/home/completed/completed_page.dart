@@ -10,7 +10,6 @@ class CompletedPage extends ConsumerWidget {
     return const Scaffold(
       appBar: CustomAppBar(
         title: '完了タスク',
-        isPositionCenter: false,
       ),
     );
   }

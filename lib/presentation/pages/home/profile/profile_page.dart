@@ -9,7 +9,6 @@ class ProfilePage extends StatelessWidget {
     return const Scaffold(
       appBar: CustomAppBar(
         title: 'プロフィール',
-        isPositionCenter: false,
       ),
       body: Center(
         child: Text('設定画面を表示'),
