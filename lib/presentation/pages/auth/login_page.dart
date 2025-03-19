@@ -48,6 +48,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
                 child: Center(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // メールアドレス入力
                       TextFormField(
@@ -110,6 +111,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         },
                         enabled: !isLoading,
                       ),
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: () {},
+                        child: const Text(
+                          'パスワードをお忘れですか？',
+                          style: TextStyle(
+                            color: todoMainColor,
+                            decoration: TextDecoration.underline,
+                            decorationColor: todoMainColor,
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 32),
 
                       // 登録ボタン
@@ -149,17 +162,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      GestureDetector(
-                        onTap: () {},
-                        child: const Text(
-                          'パスワードをお忘れですか？',
-                          style: TextStyle(
-                            color: todoMainColor,
-                            decoration: TextDecoration.underline,
-                            decorationColor: todoMainColor,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
