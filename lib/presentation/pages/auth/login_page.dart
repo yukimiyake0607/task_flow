@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
@@ -48,7 +49,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
                 child: Center(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // メールアドレス入力
                       TextFormField(
@@ -112,14 +112,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         enabled: !isLoading,
                       ),
                       const SizedBox(height: 8),
-                      GestureDetector(
-                        onTap: () {},
-                        child: const Text(
-                          'パスワードをお忘れですか？',
-                          style: TextStyle(
-                            color: todoMainColor,
-                            decoration: TextDecoration.underline,
-                            decorationColor: todoMainColor,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: const Text(
+                            'パスワードをお忘れですか？',
+                            style: TextStyle(
+                              color: todoMainColor,
+                              decoration: TextDecoration.underline,
+                              decorationColor: todoMainColor,
+                            ),
                           ),
                         ),
                       ),
@@ -162,6 +165,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 8),
+                      const Text('アカウントをお持ちでない場合は'),
+                      GestureDetector(
+                        onTap: () {
+                          context.pop();
+                          context.push('/register');
+                        },
+                        child: const Text(
+                          '新規登録',
+                          style: TextStyle(
+                            color: todoMainColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
