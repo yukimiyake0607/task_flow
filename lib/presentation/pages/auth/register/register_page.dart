@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
+import 'package:todo_app/presentation/providers/auth/auth_actions_provider.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -33,6 +34,27 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       if (_formKey.currentState!.validate()) {
         // キーボードを閉じる
         FocusScope.of(context).unfocus();
+
+        final email = _emailController.text.trim();
+        final password = _passwordController.text;
+
+        ref.read(authActionsProvider).createUserWithEmailAndPassword(
+          email,
+          password,
+          () {
+            // 成功時の処理（遷移は自動的に行われるため不要）
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('アカウントが作成されました')),
+            );
+            context.push('/home');
+          },
+          (errorMessage) {
+            // エラー時の処理
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(errorMessage)),
+            );
+          },
+        );
       }
     }
   }

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/pages/auth/login/forgot_password_page.dart';
 import 'package:todo_app/presentation/pages/auth/login/login_page.dart';
 import 'package:todo_app/presentation/pages/auth/register/register_page.dart';
+import 'package:todo_app/presentation/pages/home/home_page.dart';
 import 'package:todo_app/presentation/pages/user_session/user_session_page.dart';
 
 final goRouter = GoRouter(
@@ -37,6 +38,13 @@ final goRouter = GoRouter(
       path: '/forgot',
       builder: (context, state) {
         return const ForgotPasswordPage();
+      },
+    ),
+    GoRoute(
+      name: 'home',
+      path: '/home',
+      builder: (context, state) {
+        return const HomePage();
       },
     ),
   ],
