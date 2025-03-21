@@ -4,12 +4,12 @@ import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class AuthButton extends ConsumerWidget {
   final String _buttonTitle;
-  final VoidCallback? _onPressed;
+  final VoidCallback _onPressed;
 
   const AuthButton({
     super.key,
     required String buttonTitle,
-    VoidCallback? onPressed,
+    required VoidCallback onPressed,
   })  : _buttonTitle = buttonTitle,
         _onPressed = onPressed;
 
@@ -33,7 +33,7 @@ class AuthButton extends ConsumerWidget {
       ),
       child: ElevatedButton(
         onPressed: () {
-          isLoading ? null : _onPressed;
+          isLoading ? null : _onPressed();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,

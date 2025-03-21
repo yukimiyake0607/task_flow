@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
@@ -75,7 +74,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                       const SizedBox(height: 32),
                       AuthButton(
                         buttonTitle: 'リセットメールを送信',
-                        onPressed: isLoading ? null : _resetPassword,
+                        onPressed: _resetPassword,
                       ),
                     ],
                   ),
