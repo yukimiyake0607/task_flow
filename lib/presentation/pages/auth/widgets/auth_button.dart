@@ -4,13 +4,14 @@ import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class AuthButton extends ConsumerWidget {
   final String _buttonTitle;
-  final VoidCallback _onPressed;
+  final VoidCallback? _onPressed;
 
-    const AuthButton({
+  const AuthButton({
     super.key,
     required String buttonTitle,
-    required VoidCallback onPressed,
-  }) : _buttonTitle = buttonTitle , _onPressed = onPressed;
+    VoidCallback? onPressed,
+  })  : _buttonTitle = buttonTitle,
+        _onPressed = onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,7 +33,7 @@ class AuthButton extends ConsumerWidget {
       ),
       child: ElevatedButton(
         onPressed: () {
-          isLoading ? null : _onPressed();
+          isLoading ? null : _onPressed;
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
@@ -41,14 +42,20 @@ class AuthButton extends ConsumerWidget {
             borderRadius: BorderRadius.circular(28),
           ),
         ),
-        child: Text(
-          _buttonTitle,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        child: isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : Text(
+                _buttonTitle,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
       ),
     );
   }
