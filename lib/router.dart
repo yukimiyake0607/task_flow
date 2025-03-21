@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_app/presentation/pages/auth/forgot_password_page.dart';
-import 'package:todo_app/presentation/pages/auth/login_page.dart';
-import 'package:todo_app/presentation/pages/auth/register_page.dart';
+import 'package:todo_app/presentation/pages/auth/login/forgot_password_page.dart';
+import 'package:todo_app/presentation/pages/auth/login/login_page.dart';
+import 'package:todo_app/presentation/pages/auth/register/register_page.dart';
 import 'package:todo_app/presentation/pages/user_session/user_session_page.dart';
 
 final goRouter = GoRouter(
