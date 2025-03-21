@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
+import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -24,8 +25,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     _passwordController.dispose();
     super.dispose();
   }
-
-  void _login() {}
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +114,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            context.push('/forgot');
+                          },
                           child: const Text(
                             'パスワードをお忘れですか？',
                             style: TextStyle(
@@ -129,40 +130,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       const SizedBox(height: 32),
 
                       // 登録ボタン
-                      Container(
-                        width: double.infinity,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFFF97316),
-                              Color(0xFFEA580C),
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(28),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            isLoading ? null : _login();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28),
-                            ),
-                          ),
-                          child: const Text(
-                            'ログイン',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                      AuthButton(
+                        buttonTitle: 'ログイン',
+                        onPressed: () {},
                       ),
                       const SizedBox(height: 8),
                       const Text('アカウントをお持ちでない場合は'),

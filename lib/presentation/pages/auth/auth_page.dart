@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
+import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
+import 'package:todo_app/presentation/pages/auth/widgets/auth_white_button.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -31,75 +33,17 @@ class AuthPage extends StatelessWidget {
               const SizedBox(height: 10),
               const Text('タスク管理をもっとシンプルに'),
               const SizedBox(height: 50),
-              Container(
-                width: 200,
-                height: 56,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFF97316),
-                      Color(0xFFEA580C),
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: BorderRadius.circular(28),
-                ),
-                child: ElevatedButton(
+              AuthButton(
+                  buttonTitle: 'ログイン',
                   onPressed: () {
                     context.push('/login');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                  ),
-                  child: const Text(
-                    'ログイン',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+                  }),
               const SizedBox(height: 20),
-              Container(
-                width: 200,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: const Color(0xFFF97316),
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(28),
-                ),
-                child: ElevatedButton(
+              AuthWhiteButton(
+                  buttonTitle: '新規登録',
                   onPressed: () {
                     context.push('/register');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: const Color(0xFFF97316),
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                  ),
-                  child: const Text(
-                    '新規登録',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFFF97316),
-                    ),
-                  ),
-                ),
-              ),
+                  }),
             ],
           ),
         ),

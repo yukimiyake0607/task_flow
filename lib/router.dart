@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_app/presentation/pages/auth/forgot_password_page.dart';
 import 'package:todo_app/presentation/pages/auth/login_page.dart';
 import 'package:todo_app/presentation/pages/auth/register_page.dart';
 import 'package:todo_app/presentation/pages/user_session/user_session_page.dart';
@@ -29,6 +30,13 @@ final goRouter = GoRouter(
       path: '/register',
       builder: (context, state) {
         return const RegisterPage();
+      },
+    ),
+    GoRoute(
+      name: 'forgot',
+      path: '/forgot',
+      builder: (context, state) {
+        return const ForgotPasswordPage();
       },
     ),
   ],

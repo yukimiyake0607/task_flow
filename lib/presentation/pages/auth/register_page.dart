@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
+import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -25,8 +26,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     _passwordController.dispose();
     super.dispose();
   }
-
-  void _register() {}
 
   @override
   Widget build(BuildContext context) {
@@ -154,41 +153,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       const SizedBox(height: 32),
 
                       // 登録ボタン
-                      Container(
-                        width: double.infinity,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFFF97316),
-                              Color(0xFFEA580C),
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(28),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            isLoading ? null : _register();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28),
-                            ),
-                          ),
-                          child: const Text(
-                            'アカウント作成',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+                      AuthButton(buttonTitle: '新規登録', onPressed: () {}),
                       const SizedBox(height: 8),
                       const Text('すでにアカウントをお持ちの場合は'),
                       GestureDetector(
