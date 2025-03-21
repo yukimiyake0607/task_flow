@@ -8,7 +8,9 @@ class CompletedPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return const Scaffold(
-      appBar: CustomAppBar(title: '完了タスク'),
+      appBar: CustomAppBar(
+        title: '完了タスク',
+      ),
     );
   }
 }
