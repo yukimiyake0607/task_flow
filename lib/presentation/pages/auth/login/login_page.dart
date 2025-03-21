@@ -30,131 +30,135 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authActionStateProvider);
     final isLoading = authState is AsyncLoading;
-    return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'ログイン',
-        isShowPopButton: true,
-        subTitle: 'アカウント情報を入力してください',
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Form(
-          key: _formKey,
-          child: LayoutBuilder(builder: (context, constrains) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constrains.maxHeight,
-                ),
-                child: Center(
-                  child: Column(
-                    children: [
-                      // メールアドレス入力
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'メールアドレス',
-                          labelStyle: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: const CustomAppBar(
+          title: 'ログイン',
+          isShowPopButton: true,
+          subTitle: 'アカウント情報を入力してください',
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Form(
+            key: _formKey,
+            child: LayoutBuilder(builder: (context, constrains) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constrains.maxHeight,
+                  ),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        // メールアドレス入力
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(
+                            labelText: 'メールアドレス',
+                            labelStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                            border: OutlineInputBorder(),
                           ),
-                          border: OutlineInputBorder(),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'メールアドレスを入力してください';
+                            }
+                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                .hasMatch(value)) {
+                              return '有効なメールアドレスを入力してください';
+                            }
+                            return null;
+                          },
+                          enabled: !isLoading,
                         ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'メールアドレスを入力してください';
-                          }
-                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                            return '有効なメールアドレスを入力してください';
-                          }
-                          return null;
-                        },
-                        enabled: !isLoading,
-                      ),
 
-                      const SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
-                      // パスワード入力
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          labelText: 'パスワード',
-                          labelStyle: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
+                        // パスワード入力
+                        TextFormField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelText: 'パスワード',
+                            labelStyle: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                            border: const OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isPasswordVisible = !_isPasswordVisible;
+                                });
+                              },
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                            ),
                           ),
-                          border: const OutlineInputBorder(),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _isPasswordVisible = !_isPasswordVisible;
-                              });
+                          obscureText: _isPasswordVisible,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'パスワードを入力してください';
+                            }
+                            if (value.length < 6) {
+                              return 'パスワードは6文字以上で入力してください';
+                            }
+                            return null;
+                          },
+                          enabled: !isLoading,
+                        ),
+                        const SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: GestureDetector(
+                            onTap: () {
+                              context.push('/forgot');
                             },
-                            icon: Icon(
-                              _isPasswordVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+                            child: const Text(
+                              'パスワードをお忘れですか？',
+                              style: TextStyle(
+                                color: todoMainColor,
+                                decoration: TextDecoration.underline,
+                                decorationColor: todoMainColor,
+                              ),
                             ),
                           ),
                         ),
-                        obscureText: _isPasswordVisible,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'パスワードを入力してください';
-                          }
-                          if (value.length < 6) {
-                            return 'パスワードは6文字以上で入力してください';
-                          }
-                          return null;
-                        },
-                        enabled: !isLoading,
-                      ),
-                      const SizedBox(height: 8),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: GestureDetector(
+                        const SizedBox(height: 32),
+
+                        // 登録ボタン
+                        AuthButton(
+                          buttonTitle: 'ログイン',
+                          onPressed: () {},
+                        ),
+                        const SizedBox(height: 8),
+                        const Text('アカウントをお持ちでない場合は'),
+                        GestureDetector(
                           onTap: () {
-                            context.push('/forgot');
+                            context.pop();
+                            context.push('/register');
                           },
                           child: const Text(
-                            'パスワードをお忘れですか？',
+                            '新規登録',
                             style: TextStyle(
                               color: todoMainColor,
-                              decoration: TextDecoration.underline,
-                              decorationColor: todoMainColor,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 32),
-
-                      // 登録ボタン
-                      AuthButton(
-                        buttonTitle: 'ログイン',
-                        onPressed: () {},
-                      ),
-                      const SizedBox(height: 8),
-                      const Text('アカウントをお持ちでない場合は'),
-                      GestureDetector(
-                        onTap: () {
-                          context.pop();
-                          context.push('/register');
-                        },
-                        child: const Text(
-                          '新規登録',
-                          style: TextStyle(
-                            color: todoMainColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );
