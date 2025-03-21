@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
+import 'package:todo_app/presentation/providers/auth/auth_actions_provider.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -24,6 +25,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _login() {
+    if (_formKey.currentState != null) {
+      if (_formKey.currentState!.validate()) {
+        FocusScope.of(context).unfocus();
+
+        final email = _emailController.text.trim();
+        final password = _passwordController.text;
+
+        ref.read(authActionsProvider).signInWithEmailAndPassword(
+          email,
+          password,
+          () {
+            context.go('/home');
+          },
+          (errorMessage) {
+            // エラー時の処理
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(errorMessage)),
+            );
+          },
+        );
+      }
+    }
   }
 
   @override
@@ -135,7 +161,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         // 登録ボタン
                         AuthButton(
                           buttonTitle: 'ログイン',
-                          onPressed: () {},
+                          onPressed: _login,
                         ),
                         const SizedBox(height: 8),
                         const Text('アカウントをお持ちでない場合は'),

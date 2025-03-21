@@ -21,7 +21,7 @@ class AuthActions {
   Future<void> signInWithEmailAndPassword(
     String email,
     String password,
-    VoidCallback onSuccess,
+    VoidCallback? onSuccess,
     Function(String) onError,
   ) async {
     _ref.read(authActionStateProvider.notifier).state =
