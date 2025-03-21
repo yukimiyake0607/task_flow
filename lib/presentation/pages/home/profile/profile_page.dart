@@ -3,12 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/providers/auth/auth_actions_provider.dart';
+import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
-class ProfilePage extends ConsumerWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  @override
+  Widget build(BuildContext context) {
+
     void showSignOutDialog() {
       showDialog(
           context: context,
@@ -38,9 +45,25 @@ class ProfilePage extends ConsumerWidget {
         title: 'プロフィール',
       ),
       body: Center(
-        child: IconButton(
-          onPressed: () => showSignOutDialog(),
-          icon: const Icon(Icons.logout),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // ユーザー情報表示（デバッグ用）
+            Consumer(
+              builder: (context, ref, _) {
+                final authState = ref.watch(authStateProvider);
+                return Text(
+                  'ユーザー: ${authState.valueOrNull?.email ?? "未ログイン"}',
+                  style: const TextStyle(fontSize: 16),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            IconButton(
+              onPressed: () => showSignOutDialog(),
+              icon: const Icon(Icons.logout, size: 32),
+            ),
+          ],
         ),
       ),
     );

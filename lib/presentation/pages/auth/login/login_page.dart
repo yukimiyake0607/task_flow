@@ -21,33 +21,72 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   bool _isPasswordVisible = true;
 
   @override
+  void initState() {
+    super.initState();
+    // 初期表示時に認証状態を確認
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final isSignedIn = ref.read(isSignedInProvider);
+      if (isSignedIn && mounted) {
+        context.go('/home');
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _login() {
-    if (_formKey.currentState != null) {
-      if (_formKey.currentState!.validate()) {
-        FocusScope.of(context).unfocus();
+  Future<void> _login() async {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      FocusScope.of(context).unfocus();
 
-        final email = _emailController.text.trim();
-        final password = _passwordController.text;
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
 
-        ref.read(authActionsProvider).signInWithEmailAndPassword(
+      final authState = ref.read(authActionStateProvider);
+      if (authState is AsyncLoading) {
+        return; // すでにローディング中なら何もしない
+      }
+
+      try {
+        // 認証処理を直接呼び出し、結果を待機
+        await ref.read(authActionsProvider).signInWithEmailAndPassword(
           email,
           password,
           () {
-            context.go('/home');
+            // ログイン成功時のコールバック
+            if (mounted) {
+              // このコールバックが呼ばれた時点で、Firebaseの認証状態は既に変わっているはず
+              context.go('/home');
+            }
           },
           (errorMessage) {
             // エラー時の処理
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(errorMessage)),
-            );
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(errorMessage)),
+              );
+            }
           },
         );
+
+        // コールバックとは別に、この時点で認証状態を直接確認
+        if (mounted) {
+          final isSignedIn = ref.read(isSignedInProvider);
+          if (isSignedIn) {
+            context.go('/home');
+          }
+        }
+      } catch (e) {
+        // 想定外のエラー処理
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('ログイン中にエラーが発生しました: $e')),
+          );
+        }
       }
     }
   }
@@ -56,9 +95,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authActionStateProvider);
     final isLoading = authState is AsyncLoading;
+
+    // isSignedInProviderの変更を監視
+    ref.listen<bool>(isSignedInProvider, (previous, current) {
+      if (previous == false && current == true && mounted) {
+        // サインイン状態が変わった場合
+        context.go('/home');
+      }
+    });
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: const CustomAppBar(
           title: 'ログイン',
           isShowPopButton: true,
@@ -70,6 +119,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             key: _formKey,
             child: LayoutBuilder(builder: (context, constrains) {
               return SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: constrains.maxHeight,
@@ -138,6 +189,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             return null;
                           },
                           enabled: !isLoading,
+                          onFieldSubmitted: (_) => _login(),
                         ),
                         const SizedBox(height: 8),
                         Align(
@@ -158,11 +210,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         const SizedBox(height: 32),
 
-                        // 登録ボタン
+                        // ログインボタン
                         AuthButton(
                           buttonTitle: 'ログイン',
-                          onPressed: _login,
+                          onPressed: () {
+                            if (!isLoading) {
+                              _login();
+                            }
+                          },
                         ),
+
                         const SizedBox(height: 8),
                         const Text('アカウントをお持ちでない場合は'),
                         GestureDetector(
