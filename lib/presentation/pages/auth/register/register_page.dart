@@ -192,7 +192,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         AuthButton(
                             buttonTitle: '新規登録',
                             onPressed: () {
-                              isLoading ? null : _register();
+                              if (!isLoading) {
+                                _register();
+                              }
                             }),
                         const SizedBox(height: 8),
                         const Text('すでにアカウントをお持ちの場合は'),
