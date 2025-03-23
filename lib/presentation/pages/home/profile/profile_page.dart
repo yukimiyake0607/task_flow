@@ -15,29 +15,34 @@ class ProfilePage extends ConsumerStatefulWidget {
 class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-
     void showSignOutDialog() {
       showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('ログアウト'),
-              content: const Text('ログアウトしてもよろしいですか？'),
-              actions: [
-                TextButton(
-                  onPressed: () => context.pop(),
-                  child: const Text('キャンセル'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    context.pop();
-                    ref.read(authActionsProvider).signOut();
-                  },
-                  child: const Text('ログアウト'),
-                ),
-              ],
-            );
-          });
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('ログアウト'),
+            content: const Text('ログアウトしてもよろしいですか？'),
+            actions: [
+              TextButton(
+                onPressed: () => context.pop(),
+                child: const Text('キャンセル'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  context.pop();
+                  await ref.read(authActionsProvider).signOut();
+                  if (context.mounted) {
+                    ref.read(authActionStateProvider.notifier).state =
+                        const AsyncData(null);
+                    context.go('/auth');
+                  }
+                },
+                child: const Text('ログアウト'),
+              ),
+            ],
+          );
+        },
+      );
     }
 
     return Scaffold(
