@@ -29,7 +29,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     super.dispose();
   }
 
-  void _register() {
+  Future<void> _register() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         // キーボードを閉じる
@@ -38,23 +38,43 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         final email = _emailController.text.trim();
         final password = _passwordController.text;
 
-        ref.read(authActionsProvider).createUserWithEmailAndPassword(
-          email,
-          password,
-          () {
-            // 成功時の処理（遷移は自動的に行われるため不要）
+        final authState = ref.read(authActionStateProvider);
+        if (authState is AsyncLoading) {
+          return; // すでにローディング中なら何もしない
+        }
+
+        try {
+          await ref.read(authActionsProvider).createUserWithEmailAndPassword(
+            email,
+            password,
+            () {
+              // 成功時の処理（遷移は自動的に行われるため不要）
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('アカウントが作成されました')),
+              );
+              context.push('/home');
+            },
+            (errorMessage) {
+              // エラー時の処理
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(errorMessage)),
+              );
+            },
+          );
+
+          if (mounted) {
+            final isSignedIn = ref.read(isSignedInProvider);
+            if (isSignedIn) {
+              context.go('/home');
+            }
+          }
+        } on Exception catch (e) {
+          if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('アカウントが作成されました')),
+              SnackBar(content: Text('ログイン中にエラーが発生しました: $e')),
             );
-            context.push('/home');
-          },
-          (errorMessage) {
-            // エラー時の処理
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(errorMessage)),
-            );
-          },
-        );
+          }
+        }
       }
     }
   }
