@@ -29,7 +29,10 @@ final goRouter = GoRouter(
 
     // ユーザーがログイン済みで、ログイン関連のページにアクセスしようとした場合、ホーム画面へリダイレクト
     if (isLoggedIn &&
-        (path == '/login' || path == '/register' || path == '/forgot')) {
+        (path == '/login' ||
+            path == '/register' ||
+            path == '/forgot' ||
+            path == '/auth')) {
       return '/home';
     }
 
