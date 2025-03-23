@@ -80,7 +80,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             context.go('/home');
           }
         }
-      } catch (e) {
+      } on Exception catch (e) {
         // 想定外のエラー処理
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

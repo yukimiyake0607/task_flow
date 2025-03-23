@@ -30,18 +30,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   }
 
   Future<void> _register() async {
-    if (_formKey.currentState != null) {
-      if (_formKey.currentState!.validate()) {
-        // キーボードを閉じる
-        FocusScope.of(context).unfocus();
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      // キーボードを閉じる
+      FocusScope.of(context).unfocus();
 
-        final email = _emailController.text.trim();
-        final password = _passwordController.text;
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
 
-        final authState = ref.read(authActionStateProvider);
-        if (authState is AsyncLoading) {
-          return; // すでにローディング中なら何もしない
-        }
+      final authState = ref.read(authActionStateProvider);
+      if (authState is AsyncLoading) {
+        return; // すでにローディング中なら何もしない
+      }
 
         try {
           await ref.read(authActionsProvider).createUserWithEmailAndPassword(
@@ -62,18 +61,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             },
           );
 
-          if (mounted) {
-            final isSignedIn = ref.read(isSignedInProvider);
-            if (isSignedIn) {
-              context.go('/home');
-            }
+        if (mounted) {
+          final isSignedIn = ref.read(isSignedInProvider);
+          if (isSignedIn) {
+            context.go('/home');
           }
-        } on Exception catch (e) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('ログイン中にエラーが発生しました: $e')),
-            );
-          }
+        }
+      } on Exception catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('ログイン中にエラーが発生しました: $e')),
+          );
         }
       }
     }
@@ -210,12 +208,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
                         // 登録ボタン
                         AuthButton(
-                            buttonTitle: '新規登録',
-                            onPressed: () {
-                              if (!isLoading) {
-                                _register();
-                              }
-                            }),
+                          buttonTitle: '新規登録',
+                          onPressed: () {
+                            if (!isLoading) {
+                              _register();
+                            }
+                          },
+                        ),
+
                         const SizedBox(height: 8),
                         const Text('すでにアカウントをお持ちの場合は'),
                         GestureDetector(
