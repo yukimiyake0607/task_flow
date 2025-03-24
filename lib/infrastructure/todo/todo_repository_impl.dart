@@ -85,8 +85,8 @@ class FirebaseTodoRepository implements ITodoRepository {
       throw Exception('ユーザーがログインしていません');
     }
 
-    final docRef = await _todosRef.add(TodoModel.toFirestore(todoModel));
-    return docRef.id;
+    await _todosRef.doc(todoModel.id).set(TodoModel.toFirestore(todoModel));
+    return todoModel.id;
   }
 
   @override
