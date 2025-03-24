@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/core/extensions/snack_bar.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
@@ -32,6 +33,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         email,
         () {
           context.showSuccessSnackBar('パスワードリセットのメールを送信しました');
+          context.pop();
         },
         (errorMessage) {
           context.showErrorSnackBar(errorMessage);

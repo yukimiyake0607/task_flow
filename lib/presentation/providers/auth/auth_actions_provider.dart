@@ -20,7 +20,7 @@ class AuthActions {
   Future<void> signInWithEmailAndPassword(
     String email,
     String password,
-    VoidCallback? onSuccess,
+    VoidCallback onSuccess,
     Function(String) onError,
   ) async {
     _ref.read(authActionStateProvider.notifier).state =
@@ -31,7 +31,7 @@ class AuthActions {
       await authRepository.signInWithEmailAndPassword(email, password);
       _ref.read(authActionStateProvider.notifier).state =
           const AsyncValue.data(null);
-      onSuccess;
+      onSuccess();
     } on FirebaseAuthException catch (e, stackTrace) {
       _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
@@ -58,7 +58,7 @@ class AuthActions {
       await authRepository.createUserWithEmailAndPassword(email, password);
       _ref.read(authActionStateProvider.notifier).state =
           const AsyncValue.data(null);
-      onSuccess;
+      onSuccess();
     } on FirebaseAuthException catch (e, stackTrace) {
       _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
@@ -98,7 +98,7 @@ class AuthActions {
       await authRepository.sendPasswordResetEmail(email);
       _ref.read(authActionStateProvider.notifier).state =
           const AsyncValue.data(null);
-      onSuccess;
+      onSuccess();
     } on FirebaseAuthException catch (e, stackTrace) {
       _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
