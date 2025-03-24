@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/infrastructure/auth/auth_repository_impl.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 import 'package:todo_app/presentation/core/messages/auth_error_message.dart';
-import 'package:todo_app/presentation/providers/todo/todo_provider.dart';
 
 // AuthActionsを提供するプロバイダー
 final authActionsProvider = Provider<AuthActions>((ref) {
@@ -21,7 +20,7 @@ class AuthActions {
   Future<void> signInWithEmailAndPassword(
     String email,
     String password,
-    VoidCallback onSuccess,
+    VoidCallback? onSuccess,
     Function(String) onError,
   ) async {
     _ref.read(authActionStateProvider.notifier).state =
@@ -30,15 +29,15 @@ class AuthActions {
     try {
       final authRepository = _ref.read(authRepositoryProvider);
       await authRepository.signInWithEmailAndPassword(email, password);
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           const AsyncValue.data(null);
       onSuccess;
     } on FirebaseAuthException catch (e, stackTrace) {
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
       onError(getErrorMessage(e));
     } on Exception catch (e, stackTrace) {
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
       onError('エラーが発生しました');
     }
@@ -51,21 +50,21 @@ class AuthActions {
     VoidCallback onSuccess,
     Function(String) onError,
   ) async {
-    _ref.read(todoActionStateProvider.notifier).state =
+    _ref.read(authActionStateProvider.notifier).state =
         const AsyncValue.loading();
 
     try {
       final authRepository = _ref.read(authRepositoryProvider);
       await authRepository.createUserWithEmailAndPassword(email, password);
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           const AsyncValue.data(null);
       onSuccess;
     } on FirebaseAuthException catch (e, stackTrace) {
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
       onError(getErrorMessage(e));
     } on Exception catch (e, stackTrace) {
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
       onError('エラーが発生しました');
     }
@@ -73,14 +72,14 @@ class AuthActions {
 
   // サインアウト
   Future<void> signOut() async {
-    _ref.read(todoActionStateProvider.notifier).state =
+    _ref.read(authActionStateProvider.notifier).state =
         const AsyncValue.loading();
 
     try {
       final authRepository = _ref.read(authRepositoryProvider);
       await authRepository.signOut();
     } on Exception catch (e, stackTrace) {
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
     }
   }
@@ -91,21 +90,21 @@ class AuthActions {
     VoidCallback onSuccess,
     Function(String) onError,
   ) async {
-    _ref.read(todoActionStateProvider.notifier).state =
+    _ref.read(authActionStateProvider.notifier).state =
         const AsyncValue.loading();
 
     try {
       final authRepository = _ref.read(authRepositoryProvider);
       await authRepository.sendPasswordResetEmail(email);
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           const AsyncValue.data(null);
       onSuccess;
     } on FirebaseAuthException catch (e, stackTrace) {
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
       onError(getErrorMessage(e));
     } on Exception catch (e, stackTrace) {
-      _ref.read(todoActionStateProvider.notifier).state =
+      _ref.read(authActionStateProvider.notifier).state =
           AsyncValue.error(e, stackTrace);
       onError('エラーが発生しました');
     }
