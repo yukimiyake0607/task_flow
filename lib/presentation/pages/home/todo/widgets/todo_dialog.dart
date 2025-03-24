@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/domain/entities/todo_model.dart';
+import 'package:todo_app/presentation/core/extensions/snack_bar.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
+import 'package:todo_app/presentation/providers/todo/todo_provider.dart';
 
 class TodoDialog extends ConsumerStatefulWidget {
   const TodoDialog({super.key, required this.buttonTitle, this.todoModel});
@@ -18,7 +20,7 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
   late TextEditingController _controllerTodoTitle;
   late TextEditingController _controllerDate;
   late DateTime _dueDate;
-  bool? _isCheck = false;
+  bool? _isImportant = false;
   bool _todoTitleisEmpty = true;
 
   @override
@@ -56,6 +58,28 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
       });
     }
   }
+
+  Future<void> _createTodo() async {
+    final title = _controllerTodoTitle.text.trim();
+    if (_todoTitleisEmpty) {
+      context.showErrorSnackBar('タスク名が入力されていません');
+      return;
+    }
+
+    try {
+      await ref.read(todoActionsProvider).createTodo(
+            title,
+            _dueDate,
+            _isImportant ?? false,
+          );
+    } on Exception catch (e) {
+      if (mounted) {
+        context.showErrorSnackBar('エラーが発生しました: $e');
+      }
+    }
+  }
+
+  Future<void> _updateTodo() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -145,10 +169,10 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Checkbox(
-                          value: _isCheck,
+                          value: _isImportant,
                           onChanged: (newValue) {
                             setState(() {
-                              _isCheck = newValue;
+                              _isImportant = newValue;
                             });
                           },
                         ),
@@ -159,18 +183,14 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
                       child: TextButton(
                         onPressed: () {
                           if (widget.todoModel == null) {
-                            if (_todoTitleisEmpty == true) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('タスク名を入力してください'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                              return; // 処理を中断
-                            }
-                          } else {}
+                            _createTodo();
+                          } else {
+                            _updateTodo();
+                          }
                           // ダイアログを閉じる
-                          Navigator.of(context).pop();
+                          if (mounted) {
+                            Navigator.of(context).pop();
+                          }
                         },
                         child: Text(widget.buttonTitle),
                       ),
