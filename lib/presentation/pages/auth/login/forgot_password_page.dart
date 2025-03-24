@@ -34,7 +34,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           context.showSuccessSnackBar('パスワードリセットのメールを送信しました');
         },
         (errorMessage) {
-          context.showWarningSnackBar(errorMessage);
+          context.showErrorSnackBar(errorMessage);
         },
       );
     }
