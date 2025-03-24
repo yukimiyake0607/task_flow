@@ -77,7 +77,11 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                         const SizedBox(height: 32),
                         AuthButton(
                           buttonTitle: 'リセットメールを送信',
-                          onPressed: _resetPassword,
+                          onPressed: () {
+                            if (!isLoading) {
+                              _resetPassword();
+                            }
+                          },
                         ),
                       ],
                     ),
