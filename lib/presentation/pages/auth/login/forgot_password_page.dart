@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
+import 'package:todo_app/presentation/core/extensions/snack_bar.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
+import 'package:todo_app/presentation/providers/auth/auth_actions_provider.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
@@ -22,7 +25,22 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     super.dispose();
   }
 
-  void _resetPassword() {}
+  Future<void> _resetPassword() async {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      final email = _emailController.text.trim();
+
+      await ref.read(authActionsProvider).resetPassword(
+        email,
+        () {
+          context.showSuccessSnackBar('パスワードリセットのメールを送信しました');
+          context.pop();
+        },
+        (errorMessage) {
+          context.showErrorSnackBar(errorMessage);
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
