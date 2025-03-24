@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
+import 'package:todo_app/presentation/core/extensions/snack_bar.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
 import 'package:todo_app/presentation/providers/auth/auth_actions_provider.dart';
@@ -42,24 +43,20 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         return; // すでにローディング中なら何もしない
       }
 
-        try {
-          await ref.read(authActionsProvider).createUserWithEmailAndPassword(
-            email,
-            password,
-            () {
-              // 成功時の処理（遷移は自動的に行われるため不要）
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('アカウントが作成されました')),
-              );
-              context.push('/home');
-            },
-            (errorMessage) {
-              // エラー時の処理
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(errorMessage)),
-              );
-            },
-          );
+      try {
+        await ref.read(authActionsProvider).createUserWithEmailAndPassword(
+          email,
+          password,
+          () {
+            // 成功時の処理（遷移は自動的に行われるため不要）
+            context.showSuccessSnackBar('アカウントが作成されました');
+            context.push('/home');
+          },
+          (errorMessage) {
+            // エラー時の処理
+            context.showErrorSnackBar(errorMessage);
+          },
+        );
 
         if (mounted) {
           final isSignedIn = ref.read(isSignedInProvider);
@@ -69,9 +66,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         }
       } on Exception catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('ログイン中にエラーが発生しました: $e')),
-          );
+          context.showErrorSnackBar('ログイン中にエラーが発生しました: $e');
         }
       }
     }
