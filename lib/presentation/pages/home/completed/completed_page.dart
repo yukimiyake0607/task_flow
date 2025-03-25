@@ -16,23 +16,26 @@ class CompletedPage extends ConsumerWidget {
       appBar: const CustomAppBar(
         title: '完了タスク',
       ),
-      body: completeTodoListAsync.when(
-        data: (completeTodoList) {
-          if (completeTodoList.isEmpty) {
-            return const Center(child: Text('完了したTodoはありません'));
-          }
-          return ListView.builder(
-              itemCount: completeTodoList.length,
-              itemBuilder: (context, index) {
-                final completeTodo = completeTodoList[index];
-                return TodoCard(
-                  key: ValueKey(completeTodo.id),
-                  todoModel: completeTodo,
-                );
-              });
-        },
-        error: (error, stackTrace) => ErrorPage(error: error),
-        loading: () => const LoadingPage(),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: completeTodoListAsync.when(
+          data: (completeTodoList) {
+            if (completeTodoList.isEmpty) {
+              return const Center(child: Text('完了したTodoはありません'));
+            }
+            return ListView.builder(
+                itemCount: completeTodoList.length,
+                itemBuilder: (context, index) {
+                  final completeTodo = completeTodoList[index];
+                  return TodoCard(
+                    key: ValueKey(completeTodo.id),
+                    todoModel: completeTodo,
+                  );
+                });
+          },
+          error: (error, stackTrace) => ErrorPage(error: error),
+          loading: () => const LoadingPage(),
+        ),
       ),
     );
   }
