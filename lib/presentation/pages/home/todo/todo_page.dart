@@ -53,7 +53,10 @@ class _TodoPageState extends ConsumerState<TodoPage> {
                 itemCount: inCompleteTodoList.length,
                 itemBuilder: (context, index) {
                   final inCompleteTodo = inCompleteTodoList[index];
-                  return TodoCard(todoModel: inCompleteTodo);
+                  return TodoCard(
+                    key: ValueKey(inCompleteTodo.id),
+                    todoModel: inCompleteTodo,
+                  );
                 });
           },
           error: (error, stackTrace) => ErrorPage(error: error),
