@@ -78,9 +78,7 @@ class _TodoCardState extends ConsumerState<TodoCard> {
               if (!mounted) return;
 
               // 反対のリストに移動する処理
-              if (_isChecked) {}
-
-              if (!_isChecked) {}
+              ref.read(todoActionsProvider).toggleTodo(widget.todoModel);
             },
           ),
           Column(
