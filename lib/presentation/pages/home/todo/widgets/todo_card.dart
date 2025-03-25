@@ -85,7 +85,14 @@ class _TodoCardState extends ConsumerState<TodoCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(widget.todoModel.todoTitle),
+              Text(
+                widget.todoModel.todoTitle,
+                style: TextStyle(
+                  decoration: widget.todoModel.isCompleted == false
+                      ? null
+                      : TextDecoration.lineThrough,
+                ),
+              ),
               widget.todoModel.dueDate != null
                   ? Text(DateFormat('yyyy年MM月dd日')
                       .format(widget.todoModel.dueDate!))
