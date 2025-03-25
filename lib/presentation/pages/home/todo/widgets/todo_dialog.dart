@@ -21,7 +21,6 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
   late TextEditingController _controllerDate;
   late DateTime _dueDate;
   bool? _isImportant = false;
-  bool _todoTitleisEmpty = true;
 
   @override
   void initState() {
@@ -61,7 +60,7 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
 
   Future<void> _createTodo() async {
     final title = _controllerTodoTitle.text.trim();
-    if (_todoTitleisEmpty) {
+    if (_controllerTodoTitle.text.isEmpty) {
       context.showErrorSnackBar('タスク名が入力されていません');
       return;
     }
@@ -79,7 +78,28 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
     }
   }
 
-  Future<void> _updateTodo() async {}
+  Future<void> _updateTodo() async {
+    final title = _controllerTodoTitle.text.trim();
+    if (_controllerTodoTitle.text.isEmpty) {
+      context.showErrorSnackBar('タスク名が入力されていません');
+      return;
+    }
+
+    try {
+      if (widget.todoModel != null) {
+        await ref.read(todoActionsProvider).updateTodo(
+              title,
+              _dueDate,
+              _isImportant ?? false,
+              widget.todoModel!.id,
+            );
+      }
+    } on Exception catch (e) {
+      if (mounted) {
+        context.showErrorSnackBar('エラーが発生しました: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +148,7 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
                       children: [
                         const Text('タスク名'),
                         const SizedBox(width: 10),
-                        if (_todoTitleisEmpty)
+                        if (_controllerTodoTitle.text.isEmpty)
                           const Text(
                             '※必須',
                             style: TextStyle(
@@ -139,18 +159,6 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
                     ),
                     TextField(
                       controller: _controllerTodoTitle,
-                      onChanged: (value) {
-                        if (value.isEmpty) {
-                          setState(() {
-                            _todoTitleisEmpty = true;
-                          });
-                        }
-                        if (value.isNotEmpty) {
-                          setState(() {
-                            _todoTitleisEmpty = false;
-                          });
-                        }
-                      },
                     ),
                     const SizedBox(height: 10),
                     InkWell(
