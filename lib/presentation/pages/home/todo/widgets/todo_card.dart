@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/domain/entities/todo_model.dart';
 import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
 import 'package:todo_app/presentation/pages/home/todo/widgets/todo_dialog.dart';
+import 'package:todo_app/presentation/providers/todo/todo_provider.dart';
 
 class TodoCard extends ConsumerStatefulWidget {
   const TodoCard({
@@ -77,13 +78,9 @@ class _TodoCardState extends ConsumerState<TodoCard> {
               if (!mounted) return;
 
               // 反対のリストに移動する処理
-              if (_isChecked) {
-                
-              }
+              if (_isChecked) {}
 
-              if (!_isChecked) {
-                
-              }
+              if (!_isChecked) {}
             },
           ),
           Column(
@@ -121,7 +118,11 @@ class _TodoCardState extends ConsumerState<TodoCard> {
 
           // 削除ボタン：両方
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              await ref
+                  .read(todoActionsProvider)
+                  .deleteTodo(widget.todoModel.id);
+            },
             icon: const Icon(Icons.delete_outlined),
             visualDensity: VisualDensity.compact,
           ),
