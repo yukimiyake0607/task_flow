@@ -4,9 +4,6 @@ abstract class IAuthRepository {
   // ユーザーの認証状態を監視
   Stream<User?> get authStateChanges;
 
-  // 現在のユーザーID（nullの場合は未認証）
-  String? get currentUserId;
-
   // 現在のユーザーがログインしているか？
   bool get isSignedIn;
 

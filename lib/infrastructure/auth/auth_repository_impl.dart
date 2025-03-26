@@ -18,9 +18,6 @@ class FirebaseAuthRepository implements IAuthRepository {
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   @override
-  String? get currentUserId => _firebaseAuth.currentUser?.uid;
-
-  @override
   bool get isSignedIn => _firebaseAuth.currentUser != null;
 
   @override

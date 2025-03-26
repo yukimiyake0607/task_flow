@@ -2,12 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/domain/entities/todo_model.dart';
 import 'package:todo_app/domain/repositories/interfaces/todo_repository_interface.dart';
+import 'package:todo_app/infrastructure/todo/empty_todo_repository_impl.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 // Todoリポジトリプロバイダー
 final todoRepositoryProvider = Provider<ITodoRepository>((ref) {
-  final userId = ref.watch(currentUserIdProvider);
-  return FirebaseTodoRepository(userId: userId);
+  final userIdAsyncValue = ref.watch(currentUserIdProvider);
+
+  return userIdAsyncValue.when(
+    data: (userId) => FirebaseTodoRepository(userId: userId),
+    error: (error, stackTrace) => EmptyTodoRepositoryImpl(),
+    loading: () => EmptyTodoRepositoryImpl(),
+  );
 });
 
 class FirebaseTodoRepository implements ITodoRepository {

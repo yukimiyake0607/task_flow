@@ -18,9 +18,9 @@ final isSignedInProvider = Provider<bool>((ref) {
 });
 
 // 現在のユーザーIDプロバイダー
-final currentUserIdProvider = Provider<String?>((ref) {
+final currentUserIdProvider = StreamProvider<String?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
-  return authRepository.currentUserId;
+  return authRepository.authStateChanges.map((user) => user?.uid);
 });
 
 // 認証アクションの状態を管理するプロバイダー
