@@ -59,9 +59,7 @@ class _TodoCardState extends ConsumerState<TodoCard> {
             ),
             child: Container(
               width: 5,
-              color: _isChecked == false
-                  ? todoMainColor
-                  : completedCardColor.withAlpha(13),
+              color: widget.todoModel.important == true ? todoMainColor : null,
             ),
           ),
           Checkbox(
