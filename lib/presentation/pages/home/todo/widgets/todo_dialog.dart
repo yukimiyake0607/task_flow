@@ -20,7 +20,7 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
   late TextEditingController _controllerTodoTitle;
   late TextEditingController _controllerDate;
   late DateTime _dueDate;
-  bool? _isImportant = false;
+  late bool _isImportant;
 
   @override
   void initState() {
@@ -32,6 +32,7 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
     _controllerDate = TextEditingController(
       text: DateFormat('yyyy年MM月dd日').format(_dueDate),
     );
+    _isImportant = widget.todoModel?.important ?? false;
   }
 
   @override
@@ -69,7 +70,7 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
       await ref.read(todoActionsProvider).createTodo(
             title,
             _dueDate,
-            _isImportant ?? false,
+            _isImportant,
           );
     } on Exception catch (e) {
       if (mounted) {
@@ -90,7 +91,7 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
         await ref.read(todoActionsProvider).updateTodo(
               title,
               _dueDate,
-              _isImportant ?? false,
+              _isImportant,
               widget.todoModel!.id,
             );
       }
@@ -180,7 +181,7 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
                           value: _isImportant,
                           onChanged: (newValue) {
                             setState(() {
-                              _isImportant = newValue;
+                              _isImportant = newValue!;
                             });
                           },
                         ),
