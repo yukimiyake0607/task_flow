@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class AuthButton extends ConsumerWidget {
@@ -21,15 +22,8 @@ class AuthButton extends ConsumerWidget {
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFFF97316),
-            Color(0xFFEA580C),
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
         borderRadius: BorderRadius.circular(28),
+        color: todoMainColor,
       ),
       child: ElevatedButton(
         onPressed: () {

@@ -22,7 +22,7 @@ class AuthPage extends StatelessWidget {
                 size: 180,
               ),
               const Text(
-                'My TODO',
+                'TaskFlow',
                 style: TextStyle(
                   fontSize: 30,
                   color: todoMainColor,
