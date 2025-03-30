@@ -10,7 +10,6 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: todoBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: Center(
