@@ -17,7 +17,6 @@ class MainApp extends StatelessWidget {
         primaryColor: todoMainColor,
         colorScheme: const ColorScheme.light(
           primary: todoMainColor,
-          secondary: todoSubColor,
           surface: Colors.white,
         ),
       ),
