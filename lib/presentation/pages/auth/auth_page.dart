@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
+import 'package:todo_app/presentation/core/theme/todo_theme.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_white_button.dart';
 
