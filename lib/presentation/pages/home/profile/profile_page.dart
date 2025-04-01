@@ -31,10 +31,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 style: profileTitleTextStyle,
               ),
               const SizedBox(height: 10),
-              SettingItem(
-                icon: Icons.person,
-                title: 'アカウント設定',
-                onTap: () {},
+              Consumer(
+                builder: (context, ref, _) {
+                  final authState = ref.watch(authStateProvider);
+                  return SettingItem(
+                    icon: Icons.person,
+                    title: authState.valueOrNull?.email ?? '未ログイン',
+                    onTap: () {},
+                  );
+                },
               ),
               const SizedBox(height: 5),
               SettingItem(
@@ -66,15 +71,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               ),
               const SizedBox(height: 20),
               const LogoutButton(),
-              Consumer(
-                builder: (context, ref, _) {
-                  final authState = ref.watch(authStateProvider);
-                  return Text(
-                    'ユーザー: ${authState.valueOrNull?.email ?? "未ログイン"}',
-                    style: const TextStyle(fontSize: 16),
-                  );
-                },
-              ),
             ],
           ),
         ),
