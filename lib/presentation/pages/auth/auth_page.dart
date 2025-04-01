@@ -10,7 +10,6 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: todoBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: Center(
@@ -23,7 +22,7 @@ class AuthPage extends StatelessWidget {
                 size: 180,
               ),
               const Text(
-                'My TODO',
+                'TaskFlow',
                 style: TextStyle(
                   fontSize: 30,
                   color: todoMainColor,

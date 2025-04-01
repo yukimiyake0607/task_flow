@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
 
 class AuthWhiteButton extends ConsumerWidget {
@@ -23,7 +24,7 @@ class AuthWhiteButton extends ConsumerWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: const Color(0xFFF97316),
+          color: todoMainColor,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(28),
@@ -44,7 +45,7 @@ class AuthWhiteButton extends ConsumerWidget {
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Color(0xFFF97316),
+            color: todoMainColor,
           ),
         ),
       ),
