@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/core/theme/setting_theme.dart';
 import 'package:todo_app/presentation/pages/home/profile/widgets/logout_button.dart';
@@ -37,7 +38,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   return SettingItem(
                     icon: Icons.person,
                     title: authState.valueOrNull?.email ?? '未ログイン',
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/email_setting');
+                    },
                   );
                 },
               ),
