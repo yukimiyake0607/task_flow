@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/domain/entities/todo_model.dart';
 import 'package:todo_app/presentation/core/extensions/snack_bar.dart';
-import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
+import 'package:todo_app/presentation/core/theme/todo_theme.dart';
 import 'package:todo_app/presentation/providers/todo/todo_provider.dart';
 
 class TodoDialog extends ConsumerStatefulWidget {

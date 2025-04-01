@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
+import 'package:todo_app/presentation/core/theme/todo_theme.dart';
 import 'package:todo_app/router.dart';
 
 class MainApp extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
 import 'package:todo_app/presentation/core/extensions/snack_bar.dart';
-import 'package:todo_app/presentation/core/theme/todo_card_color.dart';
+import 'package:todo_app/presentation/core/theme/todo_theme.dart';
 import 'package:todo_app/presentation/pages/auth/widgets/auth_button.dart';
 import 'package:todo_app/presentation/providers/auth/auth_actions_provider.dart';
 import 'package:todo_app/presentation/providers/auth/auth_provider.dart';
