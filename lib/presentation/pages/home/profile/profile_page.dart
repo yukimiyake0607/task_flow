@@ -59,7 +59,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               SettingItem(
                 icon: Icons.book_outlined,
                 title: '利用規約とポリシー',
-                onTap: () {},
+                onTap: () {
+                  context.push('/password_setting');
+                },
               ),
               const SizedBox(height: 5),
               SettingItem(
