@@ -319,7 +319,7 @@ class TermsAndPoliciesPageState extends State<TermsAndPoliciesPage>
           ),
           SizedBox(height: 8),
           Text(
-            'TaskFlow株式会社\nEメール: support@taskflow.example.com\n住所: 東京都千代田区〇〇町1-2-3',
+            'Yuki Miyake\nEメール: yukimiyake67@gmail.com',
             style: TextStyle(
               fontSize: 14,
               color: Color(0xFF666666),
