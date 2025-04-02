@@ -7,6 +7,7 @@ import 'package:todo_app/presentation/pages/auth/login/login_page.dart';
 import 'package:todo_app/presentation/pages/auth/register/register_page.dart';
 import 'package:todo_app/presentation/pages/home/home_page.dart';
 import 'package:todo_app/presentation/pages/home/profile/section_pages/email_setting_page.dart';
+import 'package:todo_app/presentation/pages/home/profile/section_pages/password_setting_page.dart';
 import 'package:todo_app/presentation/pages/home/profile/section_pages/terms_and_policies_page.dart';
 import 'package:todo_app/presentation/pages/user_session/user_session_page.dart';
 
@@ -96,6 +97,13 @@ final goRouter = GoRouter(
     GoRoute(
       name: 'password_setting',
       path: '/password_setting',
+      builder: (context, state) {
+        return const PasswordSettingPage();
+      },
+    ),
+    GoRoute(
+      name: 'terms_policies',
+      path: '/terms_policies',
       builder: (context, state) {
         return const TermsAndPoliciesPage();
       },

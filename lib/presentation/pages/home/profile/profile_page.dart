@@ -48,7 +48,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               SettingItem(
                 icon: Icons.password,
                 title: 'パスワード変更',
-                onTap: () {},
+                onTap: () {
+                  context.push('/password_setting');
+                },
               ),
               const SizedBox(height: 20),
               const Text(
@@ -60,7 +62,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 icon: Icons.book_outlined,
                 title: '利用規約とポリシー',
                 onTap: () {
-                  context.push('/password_setting');
+                  context.push('/terms_policies');
                 },
               ),
               const SizedBox(height: 5),
