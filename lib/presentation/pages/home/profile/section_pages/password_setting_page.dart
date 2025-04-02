@@ -13,7 +13,7 @@ class PasswordSettingPage extends ConsumerStatefulWidget {
 class _PasswordSettingPageState extends ConsumerState<PasswordSettingPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       appBar: CustomAppBar(
         title: 'パスワード変更',
         isShowPopButton: true,
