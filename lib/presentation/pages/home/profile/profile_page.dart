@@ -69,7 +69,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               SettingItem(
                 icon: Icons.question_mark,
                 title: 'ヘルプとサポート',
-                onTap: () {},
+                onTap: () {
+                  context.push('/help_support');
+                },
               ),
               const SizedBox(height: 5),
               const Text(
