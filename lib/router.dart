@@ -6,6 +6,10 @@ import 'package:todo_app/presentation/pages/auth/login/forgot_password_page.dart
 import 'package:todo_app/presentation/pages/auth/login/login_page.dart';
 import 'package:todo_app/presentation/pages/auth/register/register_page.dart';
 import 'package:todo_app/presentation/pages/home/home_page.dart';
+import 'package:todo_app/presentation/pages/home/profile/section_pages/email_setting_page.dart';
+import 'package:todo_app/presentation/pages/home/profile/section_pages/help_and_support_page.dart';
+import 'package:todo_app/presentation/pages/home/profile/section_pages/password_setting_page.dart';
+import 'package:todo_app/presentation/pages/home/profile/section_pages/terms_and_policies_page.dart';
 import 'package:todo_app/presentation/pages/user_session/user_session_page.dart';
 
 final goRouter = GoRouter(
@@ -84,6 +88,34 @@ final goRouter = GoRouter(
         return const HomePage();
       },
     ),
+    GoRoute(
+      name: 'email_setting',
+      path: '/email_setting',
+      builder: (context, state) {
+        return const EmailSettingPage();
+      },
+    ),
+    GoRoute(
+      name: 'password_setting',
+      path: '/password_setting',
+      builder: (context, state) {
+        return const PasswordSettingPage();
+      },
+    ),
+    GoRoute(
+      name: 'terms_policies',
+      path: '/terms_policies',
+      builder: (context, state) {
+        return const TermsAndPoliciesPage();
+      },
+    ),
+    GoRoute(
+      name: 'help_support',
+      path: '/help_support',
+      builder: (context, state) {
+        return const HelpAndSupportPage();
+      },
+    )
   ],
 
   // 遷移ページがないなどのエラーが発生した場合に使用
