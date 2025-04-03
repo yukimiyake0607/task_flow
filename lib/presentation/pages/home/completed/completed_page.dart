@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/presentation/core/appbar/custom_appbar.dart';
-import 'package:todo_app/presentation/pages/home/error_page.dart';
-import 'package:todo_app/presentation/pages/home/loading_page.dart';
+import 'package:todo_app/presentation/pages/home/core/error_page.dart';
+import 'package:todo_app/presentation/pages/home/core/loading_page.dart';
 import 'package:todo_app/presentation/pages/home/todo/widgets/todo_card.dart';
 import 'package:todo_app/presentation/providers/todo/todo_provider.dart';
 
