@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:todo_app/domain/repositories/interfaces/auth_repository_interface.dart';
+import 'package:todo_app/domain/repositories/auth_repository_interface.dart';
 
 // 認証リポジトリプロバイダー
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
