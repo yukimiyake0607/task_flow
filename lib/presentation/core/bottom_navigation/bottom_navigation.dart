@@ -13,6 +13,7 @@ class BottomNavigation extends ConsumerWidget {
       onTap: (value) {
         ref.read(bottomNavigationProvider.notifier).state = value;
       },
+      type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.list_outlined),
@@ -21,6 +22,14 @@ class BottomNavigation extends ConsumerWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.check_box_outlined),
           label: '完了',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.run_circle),
+          label: '長期目標',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.timer),
+          label: 'ポモドーロ',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
