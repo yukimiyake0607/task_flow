@@ -1,4 +1,4 @@
-import 'package:todo_app/domain/entities/todo_model.dart';
+import 'package:todo_app/domain/entities/todo_model/todo_model.dart';
 import 'package:todo_app/domain/repositories/interfaces/todo_repository_interface.dart';
 
 class EmptyTodoRepositoryImpl implements ITodoRepository {
