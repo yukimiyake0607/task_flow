@@ -17,12 +17,12 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       body: IndexedStack(
         index: bottomNavigationNum,
-        children: const [
-          TodoPage(),
-          CompletedPage(),
+        children: [
+          const TodoPage(),
+          const CompletedPage(),
           LongTermTodoPage(),
-          PomodoroPage(),
-          ProfilePage(),
+          const PomodoroPage(),
+          const ProfilePage(),
         ],
       ),
       bottomNavigationBar: const BottomNavigation(),

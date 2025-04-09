@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/domain/entities/todo_model.dart';
+import 'package:todo_app/domain/entities/todo_model/todo_model.dart';
 import 'package:todo_app/presentation/core/extensions/snack_bar.dart';
 import 'package:todo_app/presentation/core/theme/todo_theme.dart';
 import 'package:todo_app/presentation/providers/todo/todo_provider.dart';

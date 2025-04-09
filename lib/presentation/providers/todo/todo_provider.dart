@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/domain/entities/todo_model.dart';
+import 'package:todo_app/domain/entities/todo_model/todo_model.dart';
 import 'package:todo_app/infrastructure/todo/todo_repository_impl.dart';
 import 'package:uuid/uuid.dart';
 
