@@ -1,0 +1,129 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_app/src/features/authentication/presentation/auth_page.dart';
+import 'package:todo_app/src/features/authentication/presentation/login/forgot_password_page.dart';
+import 'package:todo_app/src/features/authentication/presentation/login/login_page.dart';
+import 'package:todo_app/src/features/authentication/presentation/register/register_page.dart';
+import 'package:todo_app/src/features/home/home_page.dart';
+import 'package:todo_app/src/features/home/user_session_page.dart';
+import 'package:todo_app/src/features/profile/presentation/section_pages/email_setting_page.dart';
+import 'package:todo_app/src/features/profile/presentation/section_pages/help_and_support_page.dart';
+import 'package:todo_app/src/features/profile/presentation/section_pages/password_setting_page.dart';
+import 'package:todo_app/src/features/profile/presentation/section_pages/terms_and_policies_page.dart';
+
+final goRouter = GoRouter(
+  // アプリが起動した時
+  initialLocation: '/',
+
+  // 認証状態に基づくリダイレクト
+  redirect: (BuildContext context, GoRouterState state) {
+    // 現在のユーザー状態を取得
+    final isLoggedIn = FirebaseAuth.instance.currentUser != null ? true : false;
+    final path = state.uri.path;
+
+    // ユーザーがログインしていない場合、ログイン画面へリダイレクト
+    // ただし、既にログイン関連のページにいる場合はリダイレクトしない
+    if (!isLoggedIn &&
+        path != '/login' &&
+        path != '/register' &&
+        path != '/forgot') {
+      return '/auth';
+    }
+
+    // ユーザーがログイン済みで、ログイン関連のページにアクセスしようとした場合、ホーム画面へリダイレクト
+    if (isLoggedIn &&
+        (path == '/login' ||
+            path == '/register' ||
+            path == '/forgot' ||
+            path == '/auth')) {
+      return '/home';
+    }
+
+    // その他の場合は通常のルーティング
+    return null;
+  },
+
+  // パスと画面の組み合わせ
+  routes: [
+    GoRoute(
+      name: 'user_session',
+      path: '/',
+      builder: (context, state) {
+        return const UserSessionPage();
+      },
+    ),
+    GoRoute(
+      name: 'auth',
+      path: '/auth',
+      builder: (context, state) {
+        return const AuthPage();
+      },
+    ),
+    GoRoute(
+      name: 'login',
+      path: '/login',
+      builder: (context, state) {
+        return const LoginPage();
+      },
+    ),
+    GoRoute(
+      name: 'register',
+      path: '/register',
+      builder: (context, state) {
+        return const RegisterPage();
+      },
+    ),
+    GoRoute(
+      name: 'forgot',
+      path: '/forgot',
+      builder: (context, state) {
+        return const ForgotPasswordPage();
+      },
+    ),
+    GoRoute(
+      name: 'home',
+      path: '/home',
+      builder: (context, state) {
+        return const HomePage();
+      },
+    ),
+    GoRoute(
+      name: 'email_setting',
+      path: '/email_setting',
+      builder: (context, state) {
+        return const EmailSettingPage();
+      },
+    ),
+    GoRoute(
+      name: 'password_setting',
+      path: '/password_setting',
+      builder: (context, state) {
+        return const PasswordSettingPage();
+      },
+    ),
+    GoRoute(
+      name: 'terms_policies',
+      path: '/terms_policies',
+      builder: (context, state) {
+        return const TermsAndPoliciesPage();
+      },
+    ),
+    GoRoute(
+      name: 'help_support',
+      path: '/help_support',
+      builder: (context, state) {
+        return const HelpAndSupportPage();
+      },
+    )
+  ],
+
+  // 遷移ページがないなどのエラーが発生した場合に使用
+  errorBuilder: (context, state) {
+    return Scaffold(
+      body: Center(
+        child: Text(state.error.toString()),
+      ),
+    );
+  },
+);
