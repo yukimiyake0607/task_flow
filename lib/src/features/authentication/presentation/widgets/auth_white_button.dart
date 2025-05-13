@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
-import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
+import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
 
 class AuthWhiteButton extends ConsumerWidget {
   final String _buttonTitle;

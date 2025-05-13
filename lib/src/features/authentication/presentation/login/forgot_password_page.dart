@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
+import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
 import 'package:todo_app/src/features/authentication/data/auth_actions_provider.dart';
-import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
