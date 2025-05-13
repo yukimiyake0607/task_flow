@@ -6,6 +6,7 @@ import 'package:todo_app/src/constants/setting_theme.dart';
 import 'package:todo_app/src/features/profile/presentation/widgets/logout_button.dart';
 import 'package:todo_app/src/features/profile/presentation/widgets/setting_item.dart';
 import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
+import 'package:todo_app/src/routing/router.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -39,7 +40,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     icon: Icons.person,
                     title: authState.valueOrNull?.email ?? '未ログイン',
                     onTap: () {
-                      context.push('/email_setting');
+                      context.pushNamed(AppRoute.emailSetting.name);
                     },
                   );
                 },
@@ -49,7 +50,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 icon: Icons.password,
                 title: 'パスワード変更',
                 onTap: () {
-                  context.push('/password_setting');
+                  context.pushNamed(AppRoute.passwordSetting.name);
                 },
               ),
               const SizedBox(height: 20),
@@ -62,7 +63,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 icon: Icons.book_outlined,
                 title: '利用規約とポリシー',
                 onTap: () {
-                  context.push('/terms_policies');
+                  context.pushNamed(AppRoute.termsPolicies.name);
                 },
               ),
               const SizedBox(height: 5),
@@ -70,7 +71,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 icon: Icons.question_mark,
                 title: 'ヘルプとサポート',
                 onTap: () {
-                  context.push('/help_support');
+                  context.pushNamed(AppRoute.helpSupport.name);
                 },
               ),
               const SizedBox(height: 5),
