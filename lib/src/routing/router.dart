@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
-import 'package:todo_app/src/features/authentication/data/auth_repository_impl.dart';
+import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
 import 'package:todo_app/src/features/authentication/presentation/auth_page.dart';
 import 'package:todo_app/src/features/authentication/presentation/login/forgot_password_page.dart';
 import 'package:todo_app/src/features/authentication/presentation/login/login_page.dart';
