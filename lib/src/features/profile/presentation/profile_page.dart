@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_app/src/core/appbar/custom_appbar.dart';
-import 'package:todo_app/src/core/theme/setting_theme.dart';
+import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
+import 'package:todo_app/src/constants/setting_theme.dart';
 import 'package:todo_app/src/features/profile/presentation/widgets/logout_button.dart';
 import 'package:todo_app/src/features/profile/presentation/widgets/setting_item.dart';
 import 'package:todo_app/src/features/authentication/data/auth_provider.dart';

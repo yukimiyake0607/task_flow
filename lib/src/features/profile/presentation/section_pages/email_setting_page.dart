@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/src/core/appbar/custom_appbar.dart';
-import 'package:todo_app/src/core/theme/todo_theme.dart';
+import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
+import 'package:todo_app/src/constants/todo_theme.dart';
 
 class EmailSettingPage extends ConsumerStatefulWidget {
   const EmailSettingPage({super.key});

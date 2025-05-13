@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/src/core/appbar/custom_appbar.dart';
+import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 
 class HelpAndSupportPage extends StatelessWidget {
   const HelpAndSupportPage({super.key});

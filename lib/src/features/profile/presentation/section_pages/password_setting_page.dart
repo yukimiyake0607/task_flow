@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/src/core/appbar/custom_appbar.dart';
+import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 
 class PasswordSettingPage extends ConsumerStatefulWidget {
   const PasswordSettingPage({super.key});
