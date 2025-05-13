@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
-import 'package:todo_app/src/core/extensions/snack_bar.dart';
-import 'package:todo_app/src/core/theme/todo_theme.dart';
+import 'package:todo_app/src/extensions/snack_bar.dart';
+import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/features/todo/data/todo_provider.dart';
 
 class TodoDialog extends ConsumerStatefulWidget {

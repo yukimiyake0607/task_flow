@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/src/core/theme/todo_theme.dart';
+import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
 
 class AuthButton extends ConsumerWidget {

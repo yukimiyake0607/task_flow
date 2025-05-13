@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/src/features/long_term_todo/domain/long_term_todo_model.dart';
-import 'package:todo_app/src/core/appbar/custom_appbar.dart';
+import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 
 class LongTermTodoPage extends StatelessWidget {
   LongTermTodoPage({super.key});

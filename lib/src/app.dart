@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:todo_app/src/core/theme/todo_theme.dart';
+import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/routing/router.dart';
 
 class MainApp extends StatelessWidget {
