@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
-import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
 import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
 
@@ -19,18 +18,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // 初期表示時に認証状態を確認
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final isSignedIn = ref.read(isSignedInProvider);
-      if (isSignedIn && mounted) {
-        context.go('/home');
-      }
-    });
-  }
 
   @override
   void dispose() {
@@ -51,6 +38,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
   }
 
+  String _getErrorMessage(Object error) {
+    final errorString = error.toString().toLowerCase();
+
+    if (errorString.contains('user-not-found')) {
+      return 'このメールアドレスのアカウントが見つかりません。';
+    } else if (errorString.contains('wrong-password') ||
+        errorString.contains('invalid-credential')) {
+      return 'パスワードが正しくありません。';
+    } else if (errorString.contains('invalid-email')) {
+      return 'メールアドレスの形式が正しくありません。';
+    } else if (errorString.contains('too-many-requests')) {
+      return 'ログイン試行回数が多すぎます。しばらくしてから再度お試しください。';
+    } else if (errorString.contains('network-request-failed')) {
+      return 'ネットワークエラーが発生しました。接続を確認してください。';
+    } else {
+      return 'ログインに失敗しました。入力内容をご確認ください。';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
@@ -58,9 +64,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     ref.listen<AsyncValue>(authControllerProvider, (previous, next) {
       if (next is AsyncError) {
+        final errorMessage = _getErrorMessage(next.error);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('ログインに失敗しました')),
+          SnackBar(content: Text(errorMessage)),
         );
+      } else if (next is AsyncData && next.value != null) {
+        context.go('/');
       }
     });
 
@@ -136,7 +145,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-                    obscureText: _isPasswordVisible,
+                    obscureText: !_isPasswordVisible,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'パスワードを入力してください';
