@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_app/src/constants/textstyles.dart';
 import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/routing/router.dart';
 
@@ -10,8 +11,11 @@ class SignOutDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
-      title: const Text('ログアウト'),
-      content: const Text('ログアウトしてもよろしいですか？'),
+      title: const Text('ログアウト', style: Textstyles.titleMedium),
+      content: const Text(
+        'ログアウトしてもよろしいですか？',
+        style: Textstyles.bodyNote,
+      ),
       actions: [
         TextButton(
           onPressed: () => context.pop(),
@@ -28,6 +32,9 @@ class SignOutDialog extends ConsumerWidget {
           child: const Text('ログアウト'),
         ),
       ],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
     );
   }
 }
