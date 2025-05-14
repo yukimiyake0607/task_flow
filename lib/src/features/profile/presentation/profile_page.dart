@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/constants/setting_theme.dart';
 import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
-import 'package:todo_app/src/features/profile/presentation/widgets/logout_button.dart';
+import 'package:todo_app/src/features/profile/presentation/widgets/show_logout_dialog_button.dart';
 import 'package:todo_app/src/features/profile/presentation/widgets/setting_item.dart';
 import 'package:todo_app/src/routing/router.dart';
 
@@ -80,7 +80,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 style: versionTextStyle,
               ),
               const SizedBox(height: 20),
-              const LogoutButton(),
+              const ShowLogoutDialogButton(),
             ],
           ),
         ),
