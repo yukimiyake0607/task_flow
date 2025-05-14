@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
-import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
+import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
-import 'package:todo_app/src/features/authentication/data/auth_actions_provider.dart';
-import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -30,23 +27,34 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
 
-      await ref.read(authActionsProvider).resetPassword(
-        email,
-        () {
-          context.showSuccessSnackBar('パスワードリセットのメールを送信しました');
-          context.pop();
-        },
-        (errorMessage) {
-          context.showErrorSnackBar(errorMessage);
-        },
-      );
+      await ref
+          .read(authControllerProvider.notifier)
+          .sendPasswordResetEmail(email);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authActionStateProvider);
+    final authState = ref.watch(authControllerProvider);
     final isLoading = authState is AsyncLoading;
+
+    ref.listen<AsyncValue>(authControllerProvider, (_, next) {
+      if (next is AsyncError) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return Center(
+                child: Text('${next.error}'),
+              );
+            });
+      }
+      if (next is AsyncData) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('リセットメールを送信しました')),
+        );
+      }
+    });
+
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'パスワードをリセット',

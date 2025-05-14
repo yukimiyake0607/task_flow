@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
-import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
+import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
-import 'package:todo_app/src/features/authentication/data/auth_actions_provider.dart';
-import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
+import 'package:todo_app/src/routing/router.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -19,19 +18,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isPasswordVisible = true;
-
-  @override
-  void initState() {
-    super.initState();
-    // 初期表示時に認証状態を確認
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final isSignedIn = ref.read(isSignedInProvider);
-      if (isSignedIn && mounted) {
-        context.go('/home');
-      }
-    });
-  }
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -47,57 +34,43 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
 
-      final authState = ref.read(authActionStateProvider);
-      if (authState is AsyncLoading) {
-        return; // すでにローディング中なら何もしない
-      }
+      final controller = ref.read(authControllerProvider.notifier);
+      await controller.signinWithEmailAndPassword(email, password);
+    }
+  }
 
-      try {
-        // 認証処理を直接呼び出し、結果を待機
-        await ref.read(authActionsProvider).signInWithEmailAndPassword(
-          email,
-          password,
-          () {
-            // ログイン成功時のコールバック
-            if (mounted) {
-              // このコールバックが呼ばれた時点で、Firebaseの認証状態は既に変わっているはず
-              context.go('/home');
-            }
-          },
-          (errorMessage) {
-            // エラー時の処理
-            if (mounted) {
-              context.showErrorSnackBar(errorMessage);
-            }
-          },
-        );
+  String _getErrorMessage(Object error) {
+    final errorString = error.toString().toLowerCase();
 
-        // コールバックとは別に、この時点で認証状態を直接確認
-        if (mounted) {
-          final isSignedIn = ref.read(isSignedInProvider);
-          if (isSignedIn) {
-            context.go('/home');
-          }
-        }
-      } on Exception catch (e) {
-        // 想定外のエラー処理
-        if (mounted) {
-          context.showErrorSnackBar('ログイン中にエラーが発生しました: $e');
-        }
-      }
+    if (errorString.contains('user-not-found')) {
+      return 'このメールアドレスのアカウントが見つかりません。';
+    } else if (errorString.contains('wrong-password') ||
+        errorString.contains('invalid-credential')) {
+      return 'パスワードが正しくありません。';
+    } else if (errorString.contains('invalid-email')) {
+      return 'メールアドレスの形式が正しくありません。';
+    } else if (errorString.contains('too-many-requests')) {
+      return 'ログイン試行回数が多すぎます。しばらくしてから再度お試しください。';
+    } else if (errorString.contains('network-request-failed')) {
+      return 'ネットワークエラーが発生しました。接続を確認してください。';
+    } else {
+      return 'ログインに失敗しました。入力内容をご確認ください。';
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authActionStateProvider);
+    final authState = ref.watch(authControllerProvider);
     final isLoading = authState is AsyncLoading;
 
-    // isSignedInProviderの変更を監視
-    ref.listen<bool>(isSignedInProvider, (previous, current) {
-      if (previous == false && current == true && mounted) {
-        // サインイン状態が変わった場合
-        context.go('/home');
+    ref.listen<AsyncValue>(authControllerProvider, (previous, next) {
+      if (next is AsyncError) {
+        final errorMessage = _getErrorMessage(next.error);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      } else if (next is AsyncData && next.value != null) {
+        context.goNamed(AppRoute.home.name);
       }
     });
 

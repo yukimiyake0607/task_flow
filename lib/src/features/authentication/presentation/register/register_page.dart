@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
-import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
+import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
-import 'package:todo_app/src/features/authentication/data/auth_actions_provider.dart';
-import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -38,44 +36,30 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
 
-      final authState = ref.read(authActionStateProvider);
+      final authState = ref.watch(authControllerProvider);
+
       if (authState is AsyncLoading) {
         return; // すでにローディング中なら何もしない
       }
 
-      try {
-        await ref.read(authActionsProvider).createUserWithEmailAndPassword(
-          email,
-          password,
-          () {
-            // 成功時の処理（遷移は自動的に行われるため不要）
-            context.showSuccessSnackBar('アカウントが作成されました');
-            context.push('/home');
-          },
-          (errorMessage) {
-            // エラー時の処理
-            context.showErrorSnackBar(errorMessage);
-          },
-        );
-
-        if (mounted) {
-          final isSignedIn = ref.read(isSignedInProvider);
-          if (isSignedIn) {
-            context.go('/home');
-          }
-        }
-      } on Exception catch (e) {
-        if (mounted) {
-          context.showErrorSnackBar('ログイン中にエラーが発生しました: $e');
-        }
-      }
+      final controller = ref.read(authControllerProvider.notifier);
+      await controller.createUserWithEmailAndPassword(email, password);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authActionStateProvider);
+    ref.listen<AsyncValue>(authControllerProvider, (previous, next) {
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('アカウント作成に失敗しました')),
+        );
+      }
+    });
+
+    final authState = ref.watch(authControllerProvider);
     final isLoading = authState is AsyncLoading;
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(

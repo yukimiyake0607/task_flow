@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
 import 'package:todo_app/src/features/todo/data/todo_repository_interface.dart';
 import 'package:todo_app/src/features/todo/data/empty_todo_repository_impl.dart';
-import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
 
 // Todoリポジトリプロバイダー
 final todoRepositoryProvider = Provider<ITodoRepository>((ref) {

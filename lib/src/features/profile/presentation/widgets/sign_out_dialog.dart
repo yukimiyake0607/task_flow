@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_app/src/features/authentication/data/auth_actions_provider.dart';
-import 'package:todo_app/src/features/authentication/data/auth_provider.dart';
+import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
+import 'package:todo_app/src/routing/router.dart';
 
 class SignOutDialog extends ConsumerWidget {
   const SignOutDialog({super.key});
@@ -20,11 +20,9 @@ class SignOutDialog extends ConsumerWidget {
         TextButton(
           onPressed: () async {
             context.pop();
-            await ref.read(authActionsProvider).signOut();
+            await ref.read(authControllerProvider.notifier).signOut();
             if (context.mounted) {
-              ref.read(authActionStateProvider.notifier).state =
-                  const AsyncData(null);
-              context.go('/auth');
+              context.goNamed(AppRoute.auth.name);
             }
           },
           child: const Text('ログアウト'),
