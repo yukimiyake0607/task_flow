@@ -32,6 +32,7 @@ enum AppRoute {
 GoRouter goRouter(Ref ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final currentUser = ref.watch(isSignedInProvider);
+
   return GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
@@ -39,8 +40,16 @@ GoRouter goRouter(Ref ref) {
       final loggedIn = currentUser;
       final path = state.uri.path;
       if (loggedIn) {
-        if (path == '/signIn') {
+        if (path.startsWith('/auth')) {
           return '/';
+        }
+      } else {
+        if (path == '/' ||
+            path == '/emailSetting' ||
+            path == '/passwordSetting' ||
+            path == '/termsPolicies' ||
+            path == '/helpSupport') {
+          return '/auth/login';
         }
       }
       return null;
@@ -51,46 +60,50 @@ GoRouter goRouter(Ref ref) {
         path: '/',
         name: AppRoute.home.name,
         builder: (context, state) => const HomePage(),
+        routes: [
+          GoRoute(
+            path: 'emailSetting',
+            name: AppRoute.emailSetting.name,
+            builder: (context, state) => const EmailSettingPage(),
+          ),
+          GoRoute(
+            path: 'passwordSetting',
+            name: AppRoute.passwordSetting.name,
+            builder: (context, state) => const PasswordSettingPage(),
+          ),
+          GoRoute(
+            path: 'termsPolicies',
+            name: AppRoute.termsPolicies.name,
+            builder: (context, state) => const TermsAndPoliciesPage(),
+          ),
+          GoRoute(
+            path: 'helpSupport',
+            name: AppRoute.helpSupport.name,
+            builder: (context, state) => const HelpAndSupportPage(),
+          ),
+        ],
       ),
       GoRoute(
         path: '/auth',
         name: AppRoute.auth.name,
         builder: (context, state) => const AuthPage(),
-      ),
-      GoRoute(
-        path: '/register',
-        name: AppRoute.register.name,
-        builder: (context, state) => const RegisterPage(),
-      ),
-      GoRoute(
-        path: '/login',
-        name: AppRoute.login.name,
-        builder: (context, state) => const LoginPage(),
-      ),
-      GoRoute(
-        path: '/forgot',
-        name: AppRoute.forgot.name,
-        builder: (context, state) => const ForgotPasswordPage(),
-      ),
-      GoRoute(
-        path: '/emailSetting',
-        name: AppRoute.emailSetting.name,
-        builder: (context, state) => const EmailSettingPage(),
-      ),
-      GoRoute(
-        path: '/passwordSetting',
-        name: AppRoute.passwordSetting.name,
-        builder: (context, state) => const PasswordSettingPage(),
-      ),
-      GoRoute(
-        path: '/termsPolicies',
-        name: AppRoute.termsPolicies.name,
-        builder: (context, state) => const TermsAndPoliciesPage(),
-      ),
-      GoRoute(
-        path: '/helpSupport',
-        name: AppRoute.helpSupport.name,
-        builder: (context, state) => const HelpAndSupportPage(),
+        routes: [
+          GoRoute(
+            path: 'register',
+            name: AppRoute.register.name,
+            builder: (context, state) => const RegisterPage(),
+          ),
+          GoRoute(
+            path: 'login',
+            name: AppRoute.login.name,
+            builder: (context, state) => const LoginPage(),
+          ),
+          GoRoute(
+            path: 'forgot',
+            name: AppRoute.forgot.name,
+            builder: (context, state) => const ForgotPasswordPage(),
+          ),
+        ],
       ),
     ],
     errorBuilder: (context, state) => const NotFoundPage(),
