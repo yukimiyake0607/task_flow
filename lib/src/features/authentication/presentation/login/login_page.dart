@@ -146,7 +146,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-                    obscureText: !_isPasswordVisible,
+                    obscureText: _isPasswordVisible,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'パスワードを入力してください';
