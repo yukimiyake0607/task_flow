@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
-import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
+import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 
 class AuthWhiteButton extends ConsumerWidget {
   final String _buttonTitle;
@@ -16,7 +16,7 @@ class AuthWhiteButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authActionStateProvider);
+    final authState = ref.watch(authControllerProvider);
     final isLoading = authState is AsyncLoading;
     return Container(
       width: double.infinity,

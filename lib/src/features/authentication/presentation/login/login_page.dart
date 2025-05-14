@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
-import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
+import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
-import 'package:todo_app/src/features/authentication/data/auth_actions_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -47,57 +46,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
 
-      final authState = ref.read(authActionStateProvider);
-      if (authState is AsyncLoading) {
-        return; // すでにローディング中なら何もしない
-      }
-
-      try {
-        // 認証処理を直接呼び出し、結果を待機
-        await ref.read(authActionsProvider).signInWithEmailAndPassword(
-          email,
-          password,
-          () {
-            // ログイン成功時のコールバック
-            if (mounted) {
-              // このコールバックが呼ばれた時点で、Firebaseの認証状態は既に変わっているはず
-              context.go('/home');
-            }
-          },
-          (errorMessage) {
-            // エラー時の処理
-            if (mounted) {
-              context.showErrorSnackBar(errorMessage);
-            }
-          },
-        );
-
-        // コールバックとは別に、この時点で認証状態を直接確認
-        if (mounted) {
-          final isSignedIn = ref.read(isSignedInProvider);
-          if (isSignedIn) {
-            context.go('/home');
-          }
-        }
-      } on Exception catch (e) {
-        // 想定外のエラー処理
-        if (mounted) {
-          context.showErrorSnackBar('ログイン中にエラーが発生しました: $e');
-        }
-      }
+      final controller = ref.read(authControllerProvider.notifier);
+      await controller.signinWithEmailAndPassword(email, password);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authActionStateProvider);
+    final authState = ref.watch(authControllerProvider);
     final isLoading = authState is AsyncLoading;
 
-    // isSignedInProviderの変更を監視
-    ref.listen<bool>(isSignedInProvider, (previous, current) {
-      if (previous == false && current == true && mounted) {
-        // サインイン状態が変わった場合
-        context.go('/home');
+    ref.listen<AsyncValue>(authControllerProvider, (previous, next) {
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('ログインに失敗しました')),
+        );
       }
     });
 

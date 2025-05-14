@@ -18,6 +18,9 @@ class FirebaseAuthRepository implements IAuthRepository {
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   @override
+  User? get currentUser => _firebaseAuth.currentUser;
+
+  @override
   bool get isSignedIn => _firebaseAuth.currentUser != null;
 
   @override
@@ -68,9 +71,4 @@ final isSignedInProvider = Provider<bool>((ref) {
 final currentUserIdProvider = StreamProvider<String?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges.map((user) => user?.uid);
-});
-
-// 認証アクションの状態を管理するプロバイダー
-final authActionStateProvider = StateProvider<AsyncValue<void>>((ref) {
-  return const AsyncValue.data(null);
 });

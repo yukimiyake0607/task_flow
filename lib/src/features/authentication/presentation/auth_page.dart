@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_white_button.dart';
+import 'package:todo_app/src/routing/router.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -35,13 +36,13 @@ class AuthPage extends StatelessWidget {
               AuthButton(
                   buttonTitle: 'ログイン',
                   onPressed: () {
-                    context.push('/login');
+                    context.pushNamed(AppRoute.login.name);
                   }),
               const SizedBox(height: 20),
               AuthWhiteButton(
                   buttonTitle: '新規登録',
                   onPressed: () {
-                    context.push('/register');
+                    context.pushNamed(AppRoute.register.name);
                   }),
             ],
           ),
