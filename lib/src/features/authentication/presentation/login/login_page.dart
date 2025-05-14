@@ -5,6 +5,7 @@ import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
+import 'package:todo_app/src/routing/router.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -69,7 +70,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           SnackBar(content: Text(errorMessage)),
         );
       } else if (next is AsyncData && next.value != null) {
-        context.go('/');
+        context.goNamed(AppRoute.home.name);
       }
     });
 
