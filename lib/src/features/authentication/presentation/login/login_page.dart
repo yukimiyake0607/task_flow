@@ -18,7 +18,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isPasswordVisible = true;
+  bool _isPasswordVisible = false;
 
   @override
   void initState() {
