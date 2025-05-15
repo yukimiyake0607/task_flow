@@ -20,5 +20,5 @@ abstract class ITodoRepository {
   Future<void> deleteTodo(String id);
 
   // Todoの完了状態を確認する
-  Future<void> setTodoCompleted(TodoModel todoModel, bool isCompelted);
+  Future<void> toggleTodo(TodoModel todoModel);
 }

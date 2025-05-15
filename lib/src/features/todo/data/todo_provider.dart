@@ -127,7 +127,7 @@ class TodoActions {
         const AsyncValue.loading();
 
     try {
-      await repository.setTodoCompleted(todo, !todo.isCompleted);
+      await repository.toggleTodo(todo);
 
       _ref.read(todoActionStateProvider.notifier).state =
           const AsyncValue.data(null);

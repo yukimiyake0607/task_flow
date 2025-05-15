@@ -21,5 +21,5 @@ class EmptyTodoRepositoryImpl implements ITodoRepository {
   Future<void> deleteTodo(String id) async {}
 
   @override
-  Future<void> setTodoCompleted(TodoModel todoModel, bool isCompleted) async {}
+  Future<void> toggleTodo(TodoModel todoModel) async {}
 }
