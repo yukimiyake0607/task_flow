@@ -11,7 +11,6 @@ import 'package:todo_app/src/features/profile/presentation/section_pages/email_s
 import 'package:todo_app/src/features/profile/presentation/section_pages/help_and_support_page.dart';
 import 'package:todo_app/src/features/profile/presentation/section_pages/password_setting_page.dart';
 import 'package:todo_app/src/features/profile/presentation/section_pages/terms_and_policies_page.dart';
-import 'package:todo_app/src/routing/go_router_refresh_stream.dart';
 import 'package:todo_app/src/routing/not_found_page.dart';
 
 part 'router.g.dart';
@@ -30,7 +29,6 @@ enum AppRoute {
 
 @riverpod
 GoRouter goRouter(Ref ref) {
-  final authRepository = ref.watch(authRepositoryProvider);
   final currentUser = ref.watch(isSignedInProvider);
 
   return GoRouter(
@@ -54,7 +52,6 @@ GoRouter goRouter(Ref ref) {
       }
       return null;
     },
-    refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges),
     routes: [
       GoRoute(
         path: '/',
