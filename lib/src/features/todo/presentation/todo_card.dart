@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/features/todo/presentation/todo_controller.dart';
-import 'package:todo_app/src/features/todo/todo/widgets/todo_dialog.dart';
+import 'package:todo_app/src/features/todo/presentation/todo_dialog.dart';
 
 class TodoCard extends ConsumerStatefulWidget {
   const TodoCard({

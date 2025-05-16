@@ -6,7 +6,7 @@ import 'package:todo_app/src/common_widgets/loading_page.dart';
 import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/features/todo/presentation/todo_card.dart';
 import 'package:todo_app/src/features/todo/presentation/todo_controller.dart';
-import 'package:todo_app/src/features/todo/todo/widgets/todo_dialog.dart';
+import 'package:todo_app/src/features/todo/presentation/todo_dialog.dart';
 import 'package:todo_app/src/features/todo/data/todo_provider.dart';
 
 class TodoPage extends ConsumerStatefulWidget {
