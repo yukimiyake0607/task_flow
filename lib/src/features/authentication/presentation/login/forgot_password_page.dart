@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
+import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
 
@@ -49,9 +50,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             });
       }
       if (next is AsyncData) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('リセットメールを送信しました')),
-        );
+        context.showSuccessSnackBar('リセットメールを送信しました');
       }
     });
 
