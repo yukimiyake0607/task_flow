@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/common_widgets/error_page.dart';
 import 'package:todo_app/src/common_widgets/loading_page.dart';
-import 'package:todo_app/src/features/todo/todo/widgets/todo_card.dart';
+import 'package:todo_app/src/features/todo/presentation/todo_card.dart';
 import 'package:todo_app/src/features/todo/todo/widgets/todo_dialog.dart';
 import 'package:todo_app/src/features/todo/data/todo_provider.dart';
 

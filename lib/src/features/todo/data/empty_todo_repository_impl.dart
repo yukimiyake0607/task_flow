@@ -1,5 +1,5 @@
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
-import 'package:todo_app/src/features/todo/data/todo_repository_interface.dart';
+import 'package:todo_app/src/features/todo/data/interface/todo_repository_interface.dart';
 
 class EmptyTodoRepositoryImpl implements ITodoRepository {
   @override

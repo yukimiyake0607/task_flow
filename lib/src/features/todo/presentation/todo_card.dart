@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
+import 'package:todo_app/src/features/todo/presentation/todo_controller.dart';
 import 'package:todo_app/src/features/todo/todo/widgets/todo_dialog.dart';
-import 'package:todo_app/src/features/todo/data/todo_provider.dart';
 
 class TodoCard extends ConsumerStatefulWidget {
   const TodoCard({
@@ -76,7 +76,9 @@ class _TodoCardState extends ConsumerState<TodoCard> {
               if (!mounted) return;
 
               // 反対のリストに移動する処理
-              ref.read(todoActionsProvider).toggleTodo(widget.todoModel);
+              await ref
+                  .read(todoControllerProvider.notifier)
+                  .toggleTodo(widget.todoModel);
             },
           ),
           Column(
@@ -123,7 +125,7 @@ class _TodoCardState extends ConsumerState<TodoCard> {
           IconButton(
             onPressed: () async {
               await ref
-                  .read(todoActionsProvider)
+                  .read(todoControllerProvider.notifier)
                   .deleteTodo(widget.todoModel.id);
             },
             icon: const Icon(Icons.delete_outlined),
