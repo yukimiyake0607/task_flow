@@ -1,5 +1,5 @@
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
-import 'package:todo_app/src/features/todo/data/todo_repository_interface.dart';
+import 'package:todo_app/src/features/todo/data/interface/todo_repository_interface.dart';
 
 class EmptyTodoRepositoryImpl implements ITodoRepository {
   @override
@@ -21,5 +21,5 @@ class EmptyTodoRepositoryImpl implements ITodoRepository {
   Future<void> deleteTodo(String id) async {}
 
   @override
-  Future<void> setTodoCompleted(TodoModel todoModel, bool isCompleted) async {}
+  Future<void> toggleTodo(TodoModel todoModel) async {}
 }

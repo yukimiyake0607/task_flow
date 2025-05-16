@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
+import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
 import 'package:todo_app/src/routing/router.dart';
@@ -66,9 +67,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.listen<AsyncValue>(authControllerProvider, (previous, next) {
       if (next is AsyncError) {
         final errorMessage = _getErrorMessage(next.error);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
+        context.showErrorSnackBar(errorMessage);
       } else if (next is AsyncData && next.value != null) {
         context.goNamed(AppRoute.home.name);
       }

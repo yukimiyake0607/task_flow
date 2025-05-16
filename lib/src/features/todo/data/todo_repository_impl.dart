@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/src/features/authentication/data/auth_repository.dart';
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
-import 'package:todo_app/src/features/todo/data/todo_repository_interface.dart';
+import 'package:todo_app/src/features/todo/data/interface/todo_repository_interface.dart';
 import 'package:todo_app/src/features/todo/data/empty_todo_repository_impl.dart';
 
-// Todoリポジトリプロバイダー
+// task処理を提供するRepository
 final todoRepositoryProvider = Provider<ITodoRepository>((ref) {
   final userIdAsyncValue = ref.watch(currentUserIdProvider);
 
@@ -114,14 +114,12 @@ class FirebaseTodoRepository implements ITodoRepository {
   }
 
   @override
-  Future<void> setTodoCompleted(TodoModel todoModel, bool isCompleted) async {
+  Future<void> toggleTodo(TodoModel todo) async {
     if (_userId == null) {
       throw Exception('ユーザーがログインしていません');
     }
 
-    final updatedTodo = todoModel.copyWith(isCompleted: isCompleted);
-    await _todosRef
-        .doc(todoModel.id)
-        .update(TodoModel.toFirestore(updatedTodo));
+    final updatedTodo = todo.copyWith(isCompleted: !todo.isCompleted);
+    await _todosRef.doc(todo.id).update(TodoModel.toFirestore(updatedTodo));
   }
 }

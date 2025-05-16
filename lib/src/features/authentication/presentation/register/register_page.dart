@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
+import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/features/authentication/presentation/auth_controller.dart';
 import 'package:todo_app/src/features/authentication/presentation/widgets/auth_button.dart';
 
@@ -51,9 +52,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(authControllerProvider, (previous, next) {
       if (next is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('アカウント作成に失敗しました')),
-        );
+        context.showErrorSnackBar('アカウント作成に失敗しました');
       }
     });
 

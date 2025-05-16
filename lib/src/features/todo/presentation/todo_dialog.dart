@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
 import 'package:todo_app/src/extensions/snack_bar.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
-import 'package:todo_app/src/features/todo/data/todo_provider.dart';
+import 'package:todo_app/src/features/todo/presentation/todo_controller.dart';
 
 class TodoDialog extends ConsumerStatefulWidget {
   const TodoDialog({super.key, required this.buttonTitle, this.todoModel});
@@ -66,17 +66,9 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
       return;
     }
 
-    try {
-      await ref.read(todoActionsProvider).createTodo(
-            title,
-            _dueDate,
-            _isImportant,
-          );
-    } on Exception catch (e) {
-      if (mounted) {
-        context.showErrorSnackBar('エラーが発生しました: $e');
-      }
-    }
+    await ref
+        .read(todoControllerProvider.notifier)
+        .addTodo(title, _dueDate, _isImportant);
   }
 
   Future<void> _updateTodo() async {
@@ -86,20 +78,9 @@ class _TodoDialogState extends ConsumerState<TodoDialog> {
       return;
     }
 
-    try {
-      if (widget.todoModel != null) {
-        await ref.read(todoActionsProvider).updateTodo(
-              title,
-              _dueDate,
-              _isImportant,
-              widget.todoModel!.id,
-            );
-      }
-    } on Exception catch (e) {
-      if (mounted) {
-        context.showErrorSnackBar('エラーが発生しました: $e');
-      }
-    }
+    await ref
+        .read(todoControllerProvider.notifier)
+        .updateTodo(title, _dueDate, _isImportant, widget.todoModel!.id);
   }
 
   @override
