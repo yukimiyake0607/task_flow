@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/features/todo/presentation/todo_controller.dart';
@@ -100,6 +101,11 @@ class _TodoCardState extends ConsumerState<TodoCard> {
                 ),
               ),
               const Spacer(),
+              if (widget.todoModel.dueDate != null)
+                Text(
+                  DateFormat('M月d日').format(widget.todoModel.dueDate!),
+                  style: const TextStyle(color: todoMainColor),
+                ),
             ],
           ),
         ),
