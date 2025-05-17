@@ -66,16 +66,13 @@ class _TodoCardState extends ConsumerState<TodoCard> {
             value: _isChecked,
             onChanged: (newValue) async {
               setState(() {
-                // nullが返ってくることを考慮してデフォでfalseを指定
                 _isChecked = newValue ?? false;
               });
 
-              // 一時的に状態を更新せず、0.5秒後に更新する
               await Future.delayed(const Duration(milliseconds: 500));
 
               if (!mounted) return;
 
-              // 反対のリストに移動する処理
               await ref
                   .read(todoControllerProvider.notifier)
                   .toggleTodo(widget.todoModel);
