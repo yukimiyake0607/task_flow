@@ -50,7 +50,7 @@ class _TodoPageState extends ConsumerState<TodoPage> {
         },
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         child: inCompleteTodoListAsync.when(
           data: (inCompleteTodoList) {
             if (inCompleteTodoList.isEmpty) {

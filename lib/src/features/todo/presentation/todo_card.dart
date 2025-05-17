@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:todo_app/src/features/todo/domain/todo_model.dart';
 import 'package:todo_app/src/constants/todo_theme.dart';
 import 'package:todo_app/src/features/todo/presentation/todo_controller.dart';
@@ -30,38 +29,19 @@ class _TodoCardState extends ConsumerState<TodoCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
-      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         color: _isChecked == false
             ? Colors.white
             : completedCardColor.withAlpha(13),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: _isChecked == false
-                ? todoMainColor.withAlpha(26)
-                : completedCardColor.withAlpha(26),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey.shade100,
+            width: 1,
           ),
-        ],
-        border: Border.all(
-          color: todoCardBorderColor,
         ),
       ),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              bottomLeft: Radius.circular(12),
-            ),
-            child: Container(
-              width: 5,
-              color: widget.todoModel.important == true ? todoMainColor : null,
-            ),
-          ),
           Checkbox(
             value: _isChecked,
             onChanged: (newValue) async {
@@ -77,27 +57,17 @@ class _TodoCardState extends ConsumerState<TodoCard> {
                   .read(todoControllerProvider.notifier)
                   .toggleTodo(widget.todoModel);
             },
+            side: BorderSide(color: Colors.grey.shade500, width: 2),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                widget.todoModel.todoTitle,
-                style: TextStyle(
-                  decoration: widget.todoModel.isCompleted == false
-                      ? null
-                      : TextDecoration.lineThrough,
-                ),
-              ),
-              widget.todoModel.dueDate != null
-                  ? Text(DateFormat('yyyy年MM月dd日')
-                      .format(widget.todoModel.dueDate!))
-                  : const SizedBox.shrink(),
-            ],
+          Text(
+            widget.todoModel.todoTitle,
+            style: TextStyle(
+              decoration: widget.todoModel.isCompleted == false
+                  ? null
+                  : TextDecoration.lineThrough,
+            ),
           ),
 
-          // Todoタイトルとボタン間に余白
           const Spacer(),
 
           // 編集機能はTodoPageのみ
