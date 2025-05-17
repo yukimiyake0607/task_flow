@@ -10,18 +10,18 @@ final todoRepositoryProvider = Provider<ITodoRepository>((ref) {
   final userIdAsyncValue = ref.watch(currentUserIdProvider);
 
   return userIdAsyncValue.when(
-    data: (userId) => FirebaseTodoRepository(userId: userId),
+    data: (userId) => TodoRepository(userId: userId),
     error: (error, stackTrace) => EmptyTodoRepositoryImpl(),
     loading: () => EmptyTodoRepositoryImpl(),
   );
 });
 
-class FirebaseTodoRepository implements ITodoRepository {
+class TodoRepository implements ITodoRepository {
   final FirebaseFirestore _firestore;
   final String _collection = 'todos';
   final String? _userId;
 
-  FirebaseTodoRepository(
+  TodoRepository(
       {FirebaseFirestore? firestore, required String? userId})
       : _firestore = firestore ?? FirebaseFirestore.instance,
         _userId = userId;
