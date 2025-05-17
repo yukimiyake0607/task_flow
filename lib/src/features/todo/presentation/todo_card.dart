@@ -28,77 +28,75 @@ class _TodoCardState extends ConsumerState<TodoCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: _isChecked == false
-            ? Colors.white
-            : completedCardColor.withAlpha(13),
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.grey.shade100,
-            width: 1,
+    return GestureDetector(
+      onTap: () {
+        if (!_isChecked) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return TodoDialog(
+                buttonTitle: '編集',
+                todoModel: widget.todoModel,
+              );
+            },
+          );
+        }
+        return;
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: _isChecked == false
+              ? Colors.white
+              : completedCardColor.withAlpha(13),
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey.shade100,
+              width: 1,
+            ),
           ),
         ),
-      ),
-      child: Row(
-        children: [
-          Checkbox(
-            value: _isChecked,
-            onChanged: (newValue) async {
-              setState(() {
-                _isChecked = newValue ?? false;
-              });
+        child: Row(
+          children: [
+            Checkbox(
+              value: _isChecked,
+              onChanged: (newValue) async {
+                setState(() {
+                  _isChecked = newValue ?? false;
+                });
 
-              await Future.delayed(const Duration(milliseconds: 500));
+                await Future.delayed(const Duration(milliseconds: 500));
 
-              if (!mounted) return;
+                if (!mounted) return;
 
-              await ref
-                  .read(todoControllerProvider.notifier)
-                  .toggleTodo(widget.todoModel);
-            },
-            side: BorderSide(color: Colors.grey.shade500, width: 2),
-          ),
-          Text(
-            widget.todoModel.todoTitle,
-            style: TextStyle(
-              decoration: widget.todoModel.isCompleted == false
-                  ? null
-                  : TextDecoration.lineThrough,
-            ),
-          ),
-
-          const Spacer(),
-
-          // 編集機能はTodoPageのみ
-          if (_isChecked == false)
-            IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return TodoDialog(
-                      buttonTitle: '編集',
-                      todoModel: widget.todoModel,
-                    );
-                  },
-                );
+                await ref
+                    .read(todoControllerProvider.notifier)
+                    .toggleTodo(widget.todoModel);
               },
-              icon: const Icon(Icons.edit_note_outlined),
+              side: BorderSide(color: Colors.grey.shade500, width: 2),
+            ),
+            Text(
+              widget.todoModel.todoTitle,
+              style: TextStyle(
+                decoration: widget.todoModel.isCompleted == false
+                    ? null
+                    : TextDecoration.lineThrough,
+              ),
+            ),
+
+            const Spacer(),
+
+            // 削除ボタン：両方
+            IconButton(
+              onPressed: () async {
+                await ref
+                    .read(todoControllerProvider.notifier)
+                    .deleteTodo(widget.todoModel.id);
+              },
+              icon: const Icon(Icons.delete_outlined),
               visualDensity: VisualDensity.compact,
             ),
-
-          // 削除ボタン：両方
-          IconButton(
-            onPressed: () async {
-              await ref
-                  .read(todoControllerProvider.notifier)
-                  .deleteTodo(widget.todoModel.id);
-            },
-            icon: const Icon(Icons.delete_outlined),
-            visualDensity: VisualDensity.compact,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
