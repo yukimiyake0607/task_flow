@@ -5,43 +5,39 @@ import 'package:todo_app/src/features/todo/domain/todo_model.dart';
 import 'package:todo_app/src/features/todo/data/interface/todo_repository_interface.dart';
 import 'package:todo_app/src/features/todo/data/empty_todo_repository_impl.dart';
 
-// task処理を提供するRepository
 final todoRepositoryProvider = Provider<ITodoRepository>((ref) {
   final userIdAsyncValue = ref.watch(currentUserIdProvider);
 
   return userIdAsyncValue.when(
-    data: (userId) => FirebaseTodoRepository(userId: userId),
+    data: (userId) => TodoRepository(userId: userId),
     error: (error, stackTrace) => EmptyTodoRepositoryImpl(),
     loading: () => EmptyTodoRepositoryImpl(),
   );
 });
 
-class FirebaseTodoRepository implements ITodoRepository {
+class TodoRepository implements ITodoRepository {
   final FirebaseFirestore _firestore;
   final String _collection = 'todos';
   final String? _userId;
 
-  FirebaseTodoRepository(
-      {FirebaseFirestore? firestore, required String? userId})
+  TodoRepository({FirebaseFirestore? firestore, required String? userId})
       : _firestore = firestore ?? FirebaseFirestore.instance,
         _userId = userId;
 
-  // コレクションの参照を取得（ユーザIDごとに分ける）
-  CollectionReference<Map<String, dynamic>> get _todosRef {
+  CollectionReference<Map<String, dynamic>> get _todoCollectionRef {
     if (_userId == null) {
       throw Exception('ユーザーがログインしていません');
     }
     return _firestore.collection('users/$_userId/$_collection');
   }
 
-  // map処理がFirestoreのデータ変更のたびに実行される
   @override
   Stream<List<TodoModel>> getAllTodos() {
     if (_userId == null) {
       return Stream.value([]);
     }
 
-    return _todosRef
+    return _todoCollectionRef
         .orderBy('createdDate', descending: true)
         .snapshots()
         .map((snapshot) {
@@ -57,7 +53,7 @@ class FirebaseTodoRepository implements ITodoRepository {
       return Stream.value([]);
     }
 
-    return _todosRef
+    return _todoCollectionRef
         .where('isCompleted', isEqualTo: true)
         .orderBy('createdDate', descending: true)
         .snapshots()
@@ -74,7 +70,7 @@ class FirebaseTodoRepository implements ITodoRepository {
       return Stream.value([]);
     }
 
-    return _todosRef
+    return _todoCollectionRef
         .where('isCompleted', isEqualTo: false)
         .orderBy('createdDate', descending: true)
         .snapshots()
@@ -91,7 +87,9 @@ class FirebaseTodoRepository implements ITodoRepository {
       throw Exception('ユーザーがログインしていません');
     }
 
-    await _todosRef.doc(todoModel.id).set(TodoModel.toFirestore(todoModel));
+    await _todoCollectionRef
+        .doc(todoModel.id)
+        .set(TodoModel.toFirestore(todoModel));
     return todoModel.id;
   }
 
@@ -101,7 +99,9 @@ class FirebaseTodoRepository implements ITodoRepository {
       throw Exception('ユーザーがログインしていません');
     }
 
-    await _todosRef.doc(todoModel.id).update(TodoModel.toFirestore(todoModel));
+    await _todoCollectionRef
+        .doc(todoModel.id)
+        .update(TodoModel.toFirestore(todoModel));
   }
 
   @override
@@ -110,7 +110,7 @@ class FirebaseTodoRepository implements ITodoRepository {
       throw Exception('ユーザーがログインしていません');
     }
 
-    await _todosRef.doc(id).delete();
+    await _todoCollectionRef.doc(id).delete();
   }
 
   @override
@@ -120,6 +120,8 @@ class FirebaseTodoRepository implements ITodoRepository {
     }
 
     final updatedTodo = todo.copyWith(isCompleted: !todo.isCompleted);
-    await _todosRef.doc(todo.id).update(TodoModel.toFirestore(updatedTodo));
+    await _todoCollectionRef
+        .doc(todo.id)
+        .update(TodoModel.toFirestore(updatedTodo));
   }
 }

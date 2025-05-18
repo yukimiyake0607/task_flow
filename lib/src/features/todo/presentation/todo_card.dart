@@ -29,62 +29,69 @@ class _TodoCardState extends ConsumerState<TodoCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      margin: const EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        color: _isChecked == false
-            ? Colors.white
-            : completedCardColor.withAlpha(13),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: _isChecked == false
-                ? todoMainColor.withAlpha(26)
-                : completedCardColor.withAlpha(26),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-        border: Border.all(
-          color: todoCardBorderColor,
+    return Dismissible(
+      key: ValueKey(widget.todoModel.id),
+      direction: DismissDirection.endToStart,
+      onDismissed: (direction) async {
+        await ref
+            .read(todoControllerProvider.notifier)
+            .deleteTodo(widget.todoModel.id);
+      },
+      background: Container(
+        color: Colors.red,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20.0),
+        child: const Icon(
+          Icons.delete,
+          color: Colors.white,
         ),
       ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              bottomLeft: Radius.circular(12),
-            ),
-            child: Container(
-              width: 5,
-              color: widget.todoModel.important == true ? todoMainColor : null,
+      child: GestureDetector(
+        onTap: () {
+          if (!_isChecked) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return TodoDialog(
+                  buttonTitle: '編集',
+                  todoModel: widget.todoModel,
+                );
+              },
+            );
+          }
+          return;
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: _isChecked == false
+                ? Colors.white
+                : completedCardColor.withAlpha(13),
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey.shade100,
+                width: 1,
+              ),
             ),
           ),
-          Checkbox(
-            value: _isChecked,
-            onChanged: (newValue) async {
-              setState(() {
-                // nullが返ってくることを考慮してデフォでfalseを指定
-                _isChecked = newValue ?? false;
-              });
-
-              // 一時的に状態を更新せず、0.5秒後に更新する
-              await Future.delayed(const Duration(milliseconds: 500));
-
-              if (!mounted) return;
-
-              // 反対のリストに移動する処理
-              await ref
-                  .read(todoControllerProvider.notifier)
-                  .toggleTodo(widget.todoModel);
-            },
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Row(
             children: [
+              Checkbox(
+                value: _isChecked,
+                onChanged: (newValue) async {
+                  setState(() {
+                    _isChecked = newValue ?? false;
+                  });
+
+                  await Future.delayed(const Duration(milliseconds: 500));
+
+                  if (!mounted) return;
+
+                  await ref
+                      .read(todoControllerProvider.notifier)
+                      .toggleTodo(widget.todoModel);
+                },
+                side: BorderSide(color: Colors.grey.shade500, width: 2),
+              ),
               Text(
                 widget.todoModel.todoTitle,
                 style: TextStyle(
@@ -93,45 +100,15 @@ class _TodoCardState extends ConsumerState<TodoCard> {
                       : TextDecoration.lineThrough,
                 ),
               ),
-              widget.todoModel.dueDate != null
-                  ? Text(DateFormat('yyyy年MM月dd日')
-                      .format(widget.todoModel.dueDate!))
-                  : const SizedBox.shrink(),
+              const Spacer(),
+              if (widget.todoModel.dueDate != null)
+                Text(
+                  DateFormat('M月d日').format(widget.todoModel.dueDate!),
+                  style: const TextStyle(color: todoMainColor),
+                ),
             ],
           ),
-
-          // Todoタイトルとボタン間に余白
-          const Spacer(),
-
-          // 編集機能はTodoPageのみ
-          if (_isChecked == false)
-            IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return TodoDialog(
-                      buttonTitle: '編集',
-                      todoModel: widget.todoModel,
-                    );
-                  },
-                );
-              },
-              icon: const Icon(Icons.edit_note_outlined),
-              visualDensity: VisualDensity.compact,
-            ),
-
-          // 削除ボタン：両方
-          IconButton(
-            onPressed: () async {
-              await ref
-                  .read(todoControllerProvider.notifier)
-                  .deleteTodo(widget.todoModel.id);
-            },
-            icon: const Icon(Icons.delete_outlined),
-            visualDensity: VisualDensity.compact,
-          ),
-        ],
+        ),
       ),
     );
   }
