@@ -17,3 +17,6 @@ const todoCardBorderColor = Color(0xFFFEF3C7);
 
 const completedCardColor = Color(0xFF22C55E);
 const completedCheckColor = Color(0xFFDCFCE7);
+
+const alertColor = Color(0xFFFF0000);
+const todoDayColor = Color(0xFF2D2D2D);
