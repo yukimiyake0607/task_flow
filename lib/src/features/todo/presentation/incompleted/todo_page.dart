@@ -4,7 +4,7 @@ import 'package:todo_app/src/common_widgets/appbar/custom_appbar.dart';
 import 'package:todo_app/src/common_widgets/error_page.dart';
 import 'package:todo_app/src/common_widgets/loading_page.dart';
 import 'package:todo_app/src/extensions/snack_bar.dart';
-import 'package:todo_app/src/features/todo/presentation/todo_card.dart';
+import 'package:todo_app/src/features/todo/presentation/incompleted/todo_list_widget.dart';
 import 'package:todo_app/src/features/todo/presentation/todo_controller.dart';
 import 'package:todo_app/src/features/todo/presentation/todo_dialog.dart';
 import 'package:todo_app/src/features/todo/data/todo_provider.dart';
@@ -52,21 +52,12 @@ class _TodoPageState extends ConsumerState<TodoPage> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         child: inCompleteTodoListAsync.when(
-          data: (inCompleteTodoList) {
-            if (inCompleteTodoList.isEmpty) {
-              return const Center(
-                child: Text('Todoがありません。'),
-              );
-            }
-            return ListView.builder(
-                itemCount: inCompleteTodoList.length,
-                itemBuilder: (context, index) {
-                  final inCompleteTodo = inCompleteTodoList[index];
-                  return TodoCard(
-                    key: ValueKey(inCompleteTodo.id),
-                    todoModel: inCompleteTodo,
-                  );
-                });
+          data: (todos) {
+            return todos.isEmpty
+                ? const Center(
+                    child: Text('Todoがありません'),
+                  )
+                : TodoListWidget(todos: todos);
           },
           error: (error, stackTrace) => ErrorPage(error: error),
           loading: () => const LoadingPage(),
